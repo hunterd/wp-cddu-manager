@@ -1,0 +1,22 @@
+{
+  "name": "mussard/cddu-manager",
+  "description": "Gestion CDDU + avenants + signature",
+  "type": "wordpress-plugin",
+  "require": {
+  "php": ">=8.0",
+  "dompdf/dompdf": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CDDU_Manager\\": "includes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CDDU_Manager\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}
