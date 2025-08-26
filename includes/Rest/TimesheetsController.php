@@ -25,13 +25,13 @@ class TimesheetsController {
         $contract_id = intval($data['contract_id'] ?? 0);
 
         if (!$month || !$contract_id) {
-            return new WP_Error('invalid_data', 'month et contract_id requis', ['status' => 400]);
+            return new WP_Error('invalid_data', __('month and contract_id are required', 'wp-cddu-manager'), ['status' => 400]);
         }
 
         $post_id = wp_insert_post([
             'post_type'   => 'cddu_timesheet',
             'post_status' => 'publish',
-            'post_title'  => 'Timesheet ' . $month . ' – Contrat #' . $contract_id,
+            'post_title'  => sprintf(__("Timesheet %s – Contract #%d", 'wp-cddu-manager'), $month, $contract_id),
             'meta_input'  => [
                 'month' => $month,
                 'hours' => $hours,
@@ -42,7 +42,7 @@ class TimesheetsController {
 
         if (is_wp_error($post_id)) { return $post_id; }
 
-        // TODO: comparer avec heures prévues et déclencher avenant si dépassement
+    // TODO: compare with planned hours and trigger addendum if exceeded
         do_action('cddu/timesheet_created', $post_id);
 
         return new WP_REST_Response(['id' => $post_id], 201);

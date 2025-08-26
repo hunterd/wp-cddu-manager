@@ -3,7 +3,10 @@ namespace CDDU_Manager\Signature;
 
 class DocusignProvider implements SignatureProviderInterface {
     public function createSignatureRequest(string $pdf_path, array $signer, array $meta = []): array {
-        // Stub minimal: la vraie intégration DocuSign nécessite OAuth et l'API Envelopes.
-        return ['error' => 'DocuSign provider stub – à compléter (OAuth, Envelope, Recipient, Tabs).'];
+        // Minimal stub: real DocuSign integration requires OAuth and the Envelopes API.
+        // Make the message translatable using the plugin text domain.
+        return [
+            'error' => __('DocuSign provider stub — to be completed (OAuth, Envelope, Recipient, Tabs).', 'wp-cddu-manager'),
+        ];
     }
 }

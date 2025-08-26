@@ -1,0 +1,507 @@
+/* Organization Admin Interface Styles */
+
+/* ===== Enhanced Instructor Management Styles ===== */
+
+.cddu-instructor-management,
+.cddu-manager-management {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.cddu-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f9f9f9;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+}
+
+.cddu-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.cddu-instructor-summary,
+.cddu-manager-summary {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #0073aa;
+}
+
+.cddu-stats-grid {
+    display: flex;
+    gap: 24px;
+}
+
+.cddu-stat-item {
+    text-align: center;
+    flex: 1;
+}
+
+.cddu-stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #0073aa;
+    line-height: 1;
+}
+
+.cddu-stat-label {
+    display: block;
+    font-size: 12px;
+    color: #646970;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+.cddu-instructor-controls,
+.cddu-manager-controls {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    flex-wrap: wrap;
+}
+
+.cddu-search-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.cddu-search-container {
+    display: flex;
+    gap: 8px;
+}
+
+.cddu-search-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.cddu-filter-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cddu-filter-label {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cddu-filter-select {
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.cddu-bulk-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cddu-instructors-container,
+.cddu-managers-container {
+    margin-bottom: 16px;
+}
+
+.cddu-instructors-list,
+.cddu-managers-list {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.instructor-item,
+.manager-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease;
+}
+
+.instructor-item:last-child,
+.manager-item:last-child {
+    border-bottom: none;
+}
+
+.instructor-item:hover,
+.manager-item:hover {
+    background-color: #f8f9fa;
+}
+
+.instructor-item.assigned,
+.manager-item.assigned {
+    background-color: #f0f8f0;
+    border-left: 4px solid #4caf50;
+}
+
+.instructor-item.assigned:hover,
+.manager-item.assigned:hover {
+    background-color: #e8f5e8;
+}
+
+.instructor-checkbox,
+.manager-checkbox {
+    margin-top: 2px;
+}
+
+.instructor-info,
+.manager-info {
+    flex: 1;
+}
+
+.instructor-header,
+.manager-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.instructor-name,
+.manager-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1d2327;
+    cursor: pointer;
+    margin: 0;
+}
+
+.instructor-badges,
+.manager-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-assigned {
+    background: #4caf50;
+    color: white;
+}
+
+.badge-contracts {
+    background: #ff9800;
+    color: white;
+}
+
+.badge-organizations {
+    background: #2196f3;
+    color: white;
+}
+
+.instructor-details,
+.manager-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #646970;
+}
+
+.detail-icon {
+    font-size: 12px;
+    width: 16px;
+}
+
+.detail-text {
+    flex: 1;
+}
+
+.instructor-actions,
+.manager-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cddu-results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #646970;
+    margin-bottom: 16px;
+}
+
+.cddu-help-text {
+    padding: 16px;
+    background: #f0f6fc;
+    border: 1px solid #c8e1ff;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.cddu-help-text p {
+    margin: 0 0 8px 0;
+}
+
+.cddu-help-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== Legacy Support (for backward compatibility) ===== */
+
+#cddu-organization-instructors {
+    font-size: 14px;
+}
+
+#cddu-organization-instructors .cddu-instructor-search input {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+#cddu-organization-instructors .cddu-instructors-list.legacy {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+#cddu-organization-instructors .instructor-item.legacy {
+    margin-bottom: 5px;
+    transition: all 0.2s ease;
+}
+
+#cddu-organization-instructors .instructor-item.legacy label {
+    display: block;
+    margin: 0;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#cddu-organization-instructors .instructor-item.legacy label:hover {
+    background: #f0f0f1;
+    border-color: #0073aa;
+}
+
+#cddu-organization-instructors .instructor-item.legacy input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+#cddu-organization-instructors .instructor-item.legacy strong {
+    font-weight: 600;
+    color: #23282d;
+}
+
+#cddu-organization-instructors .instructor-item.legacy small {
+    color: #666;
+    font-size: 12px;
+    display: block;
+    margin-top: 3px;
+}
+
+/* Assigned state styling */
+#cddu-organization-instructors .instructor-item.legacy label.assigned {
+    background: #e8f5e8;
+    border-color: #4caf50;
+}
+
+#cddu-organization-instructors .instructor-item.legacy label.assigned:hover {
+    background: #d5ead5;
+    border-color: #388e3c;
+}
+
+/* Action buttons */
+#cddu-organization-instructors .button {
+    margin-right: 5px;
+    font-size: 12px;
+    height: auto;
+    padding: 4px 8px;
+    line-height: 1.4;
+}
+
+#cddu-organization-instructors .button:last-child {
+    margin-right: 0;
+}
+
+/* Info text */
+#cddu-organization-instructors p.info {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    margin: 10px 0 0 0;
+    padding: 8px;
+    background: #f0f6fc;
+    border-left: 3px solid #0073aa;
+    border-radius: 0 3px 3px 0;
+}
+
+/* No instructors message */
+#cddu-organization-instructors .no-instructors {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+#cddu-organization-instructors .no-instructors .button {
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 6px 12px;
+}
+
+/* Search highlighting */
+#cddu-organization-instructors .instructor-item.hidden {
+    display: none;
+}
+
+/* ===== Responsive Design ===== */
+
+@media (max-width: 768px) {
+    .cddu-instructor-controls,
+    .cddu-manager-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .cddu-stats-grid {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .instructor-item,
+    .manager-item {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .instructor-header,
+    .manager-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    #cddu-organization-instructors .cddu-instructors-list,
+    #cddu-organization-managers .cddu-managers-list {
+        max-height: 200px;
+    }
+    
+    #cddu-organization-instructors .instructor-item label,
+    #cddu-organization-managers .manager-item label {
+        padding: 10px;
+    }
+}
+
+/* ===== Accessibility & Interaction ===== */
+
+.cddu-search-input:focus,
+.cddu-filter-select:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 1px;
+}
+
+.instructor-checkbox input[type="checkbox"]:focus + label,
+.manager-checkbox input[type="checkbox"]:focus + label {
+    outline: 2px solid #0073aa;
+    outline-offset: 1px;
+}
+
+/* Loading states */
+.cddu-instructor-management.loading,
+.cddu-manager-management.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.cddu-instructor-management.loading::after,
+.cddu-manager-management.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enhanced button states */
+.button:hover {
+    background-color: #f0f0f1;
+    border-color: #0a7599;
+    color: #0a7599;
+}
+
+.button-primary:hover {
+    background-color: #005a87;
+    border-color: #005a87;
+}
+
+/* Smooth transitions */
+.instructor-item,
+.manager-item,
+.badge,
+.button {
+    transition: all 0.2s ease;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .cddu-instructor-summary,
+    .cddu-manager-summary {
+        border-left-width: 6px;
+    }
+    
+    .instructor-item.assigned,
+    .manager-item.assigned {
+        border-left-width: 6px;
+    }
+    
+    .badge-assigned,
+    .badge-contracts,
+    .badge-organizations {
+        border: 1px solid;
+    }
+}

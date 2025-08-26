@@ -1,6 +1,6 @@
 {
   "name": "mussard/cddu-manager",
-  "description": "Gestion CDDU + avenants + signature",
+  "description": "CDDU management + addendums + signature",
   "type": "wordpress-plugin",
   "require": {
   "php": ">=8.0",
