@@ -1,0 +1,264 @@
+/**
+ * Addendum Form Styles
+ * Styles for the addendum creation form
+ */
+
+.cddu-form-section {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.cddu-form-section h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    color: #23282d;
+}
+
+.monthly-breakdown-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.monthly-breakdown-item h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.weekly-schedule-item {
+    background: #f0f8ff;
+    border: 1px solid #b0d4f1;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.weekly-schedule-item h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #0073aa;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.remove-week-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #dc3232;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+    min-height: auto;
+}
+
+.remove-week-btn:hover {
+    background: #a00;
+}
+
+#calculation-results {
+    background: #f9f9f9;
+    border-left: 4px solid #00a32a;
+}
+
+#calculation-results h2 {
+    color: #1d2327;
+}
+
+#calculation-results .form-table th {
+    font-weight: 600;
+    color: #1d2327;
+}
+
+#calculation-results .form-table td {
+    font-family: Monaco, 'Andale Mono', 'DejaVu Sans Mono', monospace;
+    font-size: 14px;
+}
+
+.addendum-notice {
+    margin: 15px 0;
+}
+
+.addendum-notice p {
+    margin: 0.5em 0;
+}
+
+/* Form field styling improvements */
+.form-table th {
+    padding: 15px 10px 15px 0;
+    font-weight: 600;
+}
+
+.form-table td {
+    padding: 15px 10px;
+}
+
+.form-table input[type="text"],
+.form-table input[type="number"],
+.form-table input[type="date"],
+.form-table select {
+    font-size: 14px;
+    line-height: 1.4;
+    padding: 8px 12px;
+}
+
+/* Button styling */
+.button.button-primary {
+    background: #0073aa;
+    border-color: #0073aa;
+    font-weight: 600;
+}
+
+.button.button-primary:hover {
+    background: #005a87;
+    border-color: #005a87;
+}
+
+.button.button-secondary {
+    background: #f6f7f7;
+    border-color: #dcdcde;
+    color: #50575e;
+    font-weight: 600;
+}
+
+.button.button-secondary:hover {
+    background: #f0f0f1;
+    border-color: #999;
+    color: #1d2327;
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+    .form-table th,
+    .form-table td {
+        display: block;
+        width: auto;
+        padding: 10px 0;
+    }
+    
+    .form-table th {
+        border-bottom: none;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .form-table td {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e1e1e1;
+        padding-bottom: 15px;
+    }
+    
+    .monthly-breakdown-item,
+    .weekly-schedule-item {
+        margin: 10px 0;
+        padding: 10px;
+    }
+    
+    .remove-week-btn {
+        position: static;
+        float: right;
+        margin-bottom: 10px;
+    }
+}
+
+/* Enhanced field grouping */
+.field-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.field-group .form-table {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.status-indicator.draft {
+    background-color: #f56e28;
+}
+
+.status-indicator.active {
+    background-color: #00a32a;
+}
+
+.status-indicator.signed {
+    background-color: #0073aa;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Improved typography */
+.wrap h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1d2327;
+    margin-bottom: 20px;
+}
+
+.description {
+    color: #646970;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* Better contrast for accessibility */
+.form-table th label {
+    color: #1d2327;
+    font-weight: 600;
+}
+
+/* Highlight required fields */
+.required::after {
+    content: " *";
+    color: #dc3232;
+    font-weight: bold;
+}

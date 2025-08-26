@@ -46,8 +46,24 @@ class PostTypes {
             'public' => false,
             'show_ui' => true,
             'menu_icon' => 'dashicons-media-text',
-            'supports' => ['title', 'custom-fields'],
-            'capability_type' => 'post',
+            'supports' => ['title'],
+            'capability_type' => 'cddu_contract',
+            'capabilities' => [
+                'create_posts' => 'cddu_create_contracts_via_standard_ui', // Capability that nobody has
+                'edit_post' => 'edit_post',
+                'read_post' => 'read_post',
+                'delete_post' => 'delete_post',
+                'edit_posts' => 'edit_posts',
+                'edit_others_posts' => 'edit_others_posts',
+                'read_private_posts' => 'read_private_posts',
+                'delete_posts' => 'delete_posts',
+                'delete_private_posts' => 'delete_private_posts',
+                'delete_published_posts' => 'delete_published_posts',
+                'delete_others_posts' => 'delete_others_posts',
+                'edit_private_posts' => 'edit_private_posts',
+                'edit_published_posts' => 'edit_published_posts',
+            ],
+            'map_meta_cap' => true,
         ]);
 
         register_post_type('cddu_addendum', [
@@ -107,19 +123,11 @@ class PostTypes {
             'capability_type' => 'post',
         ]);
 
-        // Register metaboxes for contract, organization and mission post types
-        add_action('add_meta_boxes', [$this, 'add_contract_metaboxes']);
         add_action('add_meta_boxes', [$this, 'add_organization_metaboxes']);
         add_action('add_meta_boxes', [$this, 'add_mission_metaboxes']);
 
-        add_action('save_post_cddu_contract', [$this, 'save_contract_meta'], 10, 2);
         add_action('save_post_cddu_organization', [$this, 'save_organization_meta'], 10, 2);
         add_action('save_post_cddu_mission', [$this, 'save_mission_meta'], 10, 2);
-    }
-
-    public function add_contract_metaboxes(): void
-    {
-    add_meta_box('cddu_contract_details', __('Contract Details', 'wp-cddu-manager'), [$this, 'render_contract_metabox'], 'cddu_contract', 'normal', 'high');
     }
 
     public function add_organization_metaboxes(): void
@@ -135,55 +143,6 @@ class PostTypes {
     }
 
 
-
-    public function render_contract_metabox(
-        \WP_Post $post
-    ): void {
-        $meta = get_post_meta($post->ID);
-        $org = $meta['org'] ? maybe_unserialize($meta['org'][0]) : [];
-        $formateur = $meta['formateur'] ? maybe_unserialize($meta['formateur'][0]) : [];
-        $mission = $meta['mission'] ? maybe_unserialize($meta['mission'][0]) : [];
-        
-        // Get current instructor user ID
-        $instructor_user_id = $meta['instructor_user_id'][0] ?? '';
-        
-        // Get all instructor users
-        $instructor_users = get_users(['role' => 'cddu_instructor']);
-
-        include CDDU_MNGR_PATH . 'templates/partials/admin/contract-metabox.php';
-    }
-
-    public function save_contract_meta(int $post_id, \WP_Post $post): void
-    {
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) { return; }
-        if (!current_user_can('edit_post', $post_id)) { return; }
-
-        $org = $_POST['org'] ?? null;
-        $formateur = $_POST['formateur'] ?? null;
-        $instructor = $_POST['instructor'] ?? null;
-        $mission = $_POST['mission'] ?? null;
-        $instructor_user_id = $_POST['instructor_user_id'] ?? '';
-
-        if ($org !== null) {
-            update_post_meta($post_id, 'org', maybe_serialize($org));
-        }
-        if ($formateur !== null) {
-            update_post_meta($post_id, 'formateur', maybe_serialize($formateur));
-        }
-        if ($instructor !== null) {
-            update_post_meta($post_id, 'instructor', maybe_serialize($instructor));
-        }
-        if ($mission !== null) {
-            update_post_meta($post_id, 'mission', maybe_serialize($mission));
-        }
-        
-        // Save instructor user ID
-        if ($instructor_user_id !== '') {
-            update_post_meta($post_id, 'instructor_user_id', intval($instructor_user_id));
-        } else {
-            delete_post_meta($post_id, 'instructor_user_id');
-        }
-    }
 
     public function render_organization_metabox(\WP_Post $post): void
     {

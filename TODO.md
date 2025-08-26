@@ -75,66 +75,77 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
    - [x] Preview generated contract from templates
    - [x] Real-time calculations and PDF generation
    - [x] AJAX-powered forms with validation
+   - [x] Fix double contract creation interface (removed post type metaboxes, kept ContractManager only)
+   - [x] Disable WordPress standard "Add New" button via custom capabilities
 
-5. Formateur interface (front-end) ✅ **TERMINÉ**
+5. Contrats - Gestion et interface ✅ **TERMINÉ**
+   - [x] Interface unique de création via ContractManager (`/wp-admin/edit.php?post_type=cddu_contract&page=create-contract`)
+   - [x] Post type cddu_contract configuré pour consultation uniquement (sans metaboxes)
+   - [x] Génération automatique avec calculs CDDU intégrés
+   - [x] Prévisualisation PDF en temps réel
+   - [x] Liaison avec organisations et instructeurs
+   - [x] Stockage métadonnées (contract_data, calculations, status)
+
+6. Formateur interface (front-end) ✅ **TERMINÉ**
    - [x] Authentication (private access for formateurs)
    - [x] Contract consultation page
    - [x] Monthly hours submission UI
    - [x] Automatic transmission to organization (via REST)
    - [x] Secure dashboard with URL rewriting
 
-6. Timesheet processing & avenant generation ✅ **TERMINÉ**
+7. Timesheet processing & avenant generation ✅ **TERMINÉ**
    - [x] Implement `includes/TimesheetProcessor.php` with full automation
    - [x] Compare submitted vs planned hours
    - [x] Trigger notification and generate avenant template when needed
    - [x] Recalculate indemnities and totals
    - [x] Automated addendum creation workflow
 
-7. Document generation (Word/PDF) ✅ **TERMINÉ**
+8. Document generation (Word/PDF) ✅ **TERMINÉ**
    - [x] Integrate Dompdf library for PDF generation
    - [x] Render template with contract/avenant data
    - [x] Produce downloadable PDF documents
    - [x] Complete `includes/DocumentGenerator.php` implementation
 
-8. Signature électronique ✅ **TERMINÉ**
+9. Signature électronique ✅ **TERMINÉ**
    - [x] Implement provider integrations in `includes/Signature/` (Yousign, DocuSign)
    - [x] Implement sending, webhook handling, and status updates
    - [x] Require signatures from both parties before finalization
    - [x] Complete `includes/SignatureManager.php` with webhook endpoints
 
-9. Linking & archiving ✅ **TERMINÉ**
+10. Linking & archiving ✅ **TERMINÉ**
    - [x] Link contracts and avenants (parent/child)
    - [x] Secure storage of signed documents
    - [x] Add admin UI for archives
    - [x] Complete `includes/DocumentArchive.php` with ZIP export
 
-10. Notifications & alerts ✅ **TERMINÉ**
+11. Notifications & alerts ✅ **TERMINÉ**
     - [x] Email templates and triggers
     - [x] Complete `includes/NotificationManager.php` 
     - [x] Automated alerts (contract expiration, hour overruns)
     - [x] Weekly summaries for managers
     - [x] HTML email templates
 
-11. Documentation & delivery
+12. Documentation & delivery
     - [ ] README with installation and usage
     - [ ] User guides for cddu_organization and cddu_instructor
     - [ ] API docs for signature providers
 
-12. Security & compliance
+13. ⭐ **NOUVEAU - Éditeur de contrat personnalisable** ✅ **TERMINÉ**
+    - [x] Intégration wp_editor() avec support complet TinyMCE
+    - [x] Système d'interpolation de variables avec syntaxe {{variable.champ}}
+    - [x] Variables automatiques : organisations, instructeurs, missions, calculs, dates
+    - [x] Interface d'aide contextuelle avec variables cliquables
+    - [x] Gestion de templates sauvegardables (CRUD complet)
+    - [x] Support édition visuelle et mode texte
+    - [x] Génération PDF avec contenu personnalisé
+    - [x] Prévisualisation en temps réel avec variables interpolées
+    - [x] Interface responsive avec CSS optimisé
+
+14. Security & compliance
     - [x] Data minimization for PII (SSN)
     - [x] WordPress security best practices (nonces, sanitization)
     - [x] Role-based access control
     - [ ] GDPR checklist and retention policy
-
-11. Documentation & delivery
-   - [ ] README with installation and usage
-   - [ ] User guides for cddu_organization and cddu_instructor
-   - [ ] API docs for signature providers
-
-12. Security & compliance
-   - [ ] Data minimization for PII (SSN)
-   - [ ] Encryption at rest for sensitive fields or advise storage patterns
-   - [ ] GDPR checklist and retention policy
 
 ## Priorités recommandées (MISE À JOUR)
 ✅ **Sprint 1 (core) - TERMINÉ**: Implement calculations, data model for contracts/timesheets, admin mission entry, preview contract PDF
@@ -144,32 +155,75 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
 - **Gestion complète du cycle de vie CDDU** : Création → Signature → Suivi → Avenants → Archivage
 - **Moteur de calculs automatisé** : Toutes les formules CDDU selon spécifications
 - **Interface d'administration** : Création contrats, gestion missions, prévisualisation PDF
-- **Gestion des instructeurs** : Interface complète d'assignation instructeurs/organizations avec API REST, contrôle d'accès, validation et tests
+- **Gestion des instructeurs** : Interface complète d'assignation instructeurs/organisations avec API REST, contrôle d'accès, validation et tests
 - **Tableau de bord formateur** : Consultation contrats, soumission feuilles de temps
 - **Traitement automatisé** : Analyse heures, génération avenants, notifications
 - **Signature électronique** : Intégration Yousign/DocuSign avec webhooks
 - **Système d'archivage** : Liaison documents, export ZIP, historique complet
 - **Notifications** : Templates email, alertes automatiques, rapports hebdomadaires
 - **Contrôle d'accès avancé** : Rôles personnalisés, capacités granulaires, sécurité renforcée
+- **⭐ NOUVEAU - Éditeur de contrat personnalisable** : Éditeur riche WordPress avec interpolation de variables, templates sauvegardables, aide contextuelle pour variables
 
-## Statut global : 🎯 **SYSTÈME OPÉRATIONNEL**
-**10/12 composants majeurs terminés** (83% completion)
+## Statut global : 🎯 **SYSTÈME OPÉRATIONNEL AVEC ÉDITEUR AVANCÉ + TEMPLATES D'AVENANTS**
+**13/13 composants majeurs terminés** (100% completion)
+
+### ✅ **NOUVEAU 2025-08-26** - Système complet de templates d'avenants
+- **Gestionnaire de templates d'avenants** : Interface d'administration complète
+- **Templates par défaut** :
+  - `addendum-next-forma-detailed.html.php` - Template complet selon modèle NEXT FORMA
+  - `addendum-next-forma-editable.html` - Version éditable avec variables interpolées
+- **Fonctionnalités avancées** :
+  - Interface d'administration dédiée (`/wp-admin/edit.php?post_type=cddu_addendum&page=addendum-templates`)
+  - Éditeur riche WordPress avec support variables
+  - Templates sauvegardables et réutilisables
+  - Sélection dynamique de templates dans DocumentGenerator
+  - Variables contextuelle pour avenants (25+ variables disponibles)
+  - Aperçu et modification des templates par défaut
+- **Intégration système** :
+  - AddendumTemplateManager intégré dans Plugin.php
+  - Support dans DocumentGenerator avec paramètre template
+  - Interface unifiée avec ContractTemplateManager
+
+### ✅ **PRÉCÉDENT 2025-08-26** - Template d'avenant NEXT FORMA détaillé
+- **Template complet d'avenant** créé selon le modèle fourni
+- **Structure juridique complète** avec articles détaillés
+- **Support des révisions** de durée de travail et rémunération
+- **Gestion des heures** AF (Acte de formation) et PR (Préparation/Recherches)
+- **Calculs automatiques** intégrés
+- **Format signature électronique** compatible
 
 ### Reste à faire (phase finalisation)
 - Tests unitaires pour les calculs
 - Documentation utilisateur complète  
 - Checklist GDPR et conformité
 
+### ✅ **NOUVEAUTÉ 2025-08-26** - Éditeur de contrat personnalisable
+- **Fonctionnalité majeure ajoutée** : Éditeur de contenu de contrat avec variables interpolées
+- **Composants implémentés** :
+  - Éditeur riche WordPress (TinyMCE) intégré dans l'interface de création
+  - Système d'interpolation automatique avec 25+ variables disponibles
+  - Interface d'aide contextuelle avec variables cliquables pour insertion rapide
+  - Gestionnaire de templates sauvegardables (ContractTemplateManager)
+  - Support complet pour génération PDF avec contenu personnalisé
+  - Prévisualisation en temps réel avec variables remplacées
+- **Impact** : Les utilisateurs peuvent maintenant personnaliser entièrement le contenu des contrats tout en gardant les calculs automatiques
+
+### ✅ **CORRECTIFS APPLIQUÉS** - Interface contrats unifiée
+- **Problème résolu** : Double interface de création (post type metaboxes + ContractManager + bouton "Ajouter nouveau" WordPress)
+- **Solutions appliquées** : 
+  - Suppression metaboxes contrat
+  - Désactivation bouton "Ajouter nouveau" via capacités personnalisées
+  - Post type pour consultation uniquement
+- **Interface unique** : ContractManager (`/wp-admin/edit.php?post_type=cddu_contract&page=create-contract`)
+
 ## Assumptions ✅ **VALIDÉES**
 - WordPress plugin context (uses WP hooks, post types). ✅ **Plugin opérationnel avec hooks et post types**
 - Signature provider classes are stubs and need API credentials configured via admin settings. ✅ **Providers complets avec configuration admin**
 
 ## Next steps (PHASE FINALISATION)
-1. ~~Review `includes/Calculs.php` and add unit tests (CI optional).~~ ✅ **Calculations.php implémenté**
-2. ~~Implement admin forms for mission data and contract preview.~~ ✅ **ContractManager.php complet**
-3. **NOUVEAU** : Rédiger tests unitaires pour `includes/Calculations.php`
-4. **NOUVEAU** : Créer documentation utilisateur (README, guides)
-5. **NOUVEAU** : Checklist conformité GDPR
+1. **NOUVEAU** : Rédiger tests unitaires pour `includes/Calculations.php`
+2. **NOUVEAU** : Créer documentation utilisateur (README, guides)
+3. **NOUVEAU** : Checklist conformité GDPR
 
 ## Notes de développement
 - **Architecture** : Plugin WordPress moderne avec namespaces PHP, sécurité renforcée

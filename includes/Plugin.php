@@ -4,6 +4,8 @@ namespace CDDU_Manager;
 use CDDU_Manager\Admin\SettingsPage;
 use CDDU_Manager\Admin\ContractManager;
 use CDDU_Manager\Admin\InstructorManager;
+use CDDU_Manager\Admin\ContractTemplateManager;
+use CDDU_Manager\Admin\AddendumTemplateManager;
 use CDDU_Manager\Frontend\InstructorDashboard;
 use CDDU_Manager\Rest\TimesheetsController;
 use CDDU_Manager\Rest\InstructorOrganizationController;
@@ -25,6 +27,8 @@ class Plugin {
 
         (new SettingsPage())->hooks();
         new ContractManager();
+        new ContractTemplateManager();
+        new AddendumTemplateManager();
         new InstructorManager();
         new InstructorDashboard();
         new TimesheetProcessor();

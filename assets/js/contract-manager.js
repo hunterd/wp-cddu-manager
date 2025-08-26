@@ -59,6 +59,14 @@ jQuery(document).ready(function($) {
     
     // Generate contract
     $('#generate-contract-btn').on('click', function() {
+        // Get editor content
+        let contractContent = '';
+        if (typeof tinyMCE !== 'undefined' && tinyMCE.get('contract_content')) {
+            contractContent = tinyMCE.get('contract_content').getContent();
+        } else {
+            contractContent = $('#contract_content').val();
+        }
+        
         const formData = {
             action: 'cddu_generate_contract',
             organization_id: $('#organization_id').val(),
@@ -70,6 +78,7 @@ jQuery(document).ready(function($) {
             hourly_rate: $('#hourly_rate').val(),
             start_date: $('#start_date').val(),
             end_date: $('#end_date').val(),
+            contract_content: contractContent,
             nonce: cddu_ajax.nonce
         };
         
@@ -92,6 +101,14 @@ jQuery(document).ready(function($) {
     
     // Preview contract (placeholder)
     $('#preview-contract-btn').on('click', function() {
+        // Get editor content
+        let contractContent = '';
+        if (typeof tinyMCE !== 'undefined' && tinyMCE.get('contract_content')) {
+            contractContent = tinyMCE.get('contract_content').getContent();
+        } else {
+            contractContent = $('#contract_content').val();
+        }
+        
         const formData = {
             action: 'cddu_preview_contract',
             organization_id: $('#organization_id').val(),
@@ -102,6 +119,7 @@ jQuery(document).ready(function($) {
             hourly_rate: $('#hourly_rate').val(),
             start_date: $('#start_date').val(),
             end_date: $('#end_date').val(),
+            contract_content: contractContent,
             nonce: cddu_ajax.nonce
         };
         
@@ -113,6 +131,115 @@ jQuery(document).ready(function($) {
                 previewWindow.document.close();
             } else {
                 alert('Error: ' + (response.data.message || 'Preview failed'));
+            }
+        });
+    });
+    
+    // Variable insertion helper
+    $('.variable-group li').on('click', function() {
+        const variable = $(this).find('code').text();
+        if (!variable) return;
+        
+        // Insert variable into TinyMCE editor
+        if (typeof tinyMCE !== 'undefined' && tinyMCE.get('contract_content')) {
+            tinyMCE.get('contract_content').execCommand('mceInsertContent', false, variable);
+        } else {
+            // Fallback for text mode
+            const textarea = document.getElementById('contract_content');
+            if (textarea) {
+                const cursorPos = textarea.selectionStart;
+                const textBefore = textarea.value.substring(0, cursorPos);
+                const textAfter = textarea.value.substring(cursorPos);
+                textarea.value = textBefore + variable + textAfter;
+                textarea.selectionStart = textarea.selectionEnd = cursorPos + variable.length;
+                textarea.focus();
+            }
+        }
+    });
+    
+    // Add tooltip to variable items
+    $('.variable-group li').attr('title', 'Click to insert this variable into the editor');
+    
+    // Template management
+    function loadTemplates() {
+        $.post(cddu_ajax.ajax_url, {
+            action: 'cddu_get_templates',
+            nonce: cddu_ajax.nonce
+        }, function(response) {
+            if (response.success) {
+                const selector = $('#template-selector');
+                selector.empty().append('<option value="">-- Select Template --</option>');
+                
+                Object.keys(response.data.templates).forEach(function(templateName) {
+                    selector.append('<option value="' + templateName + '">' + templateName + '</option>');
+                });
+            }
+        });
+    }
+    
+    // Load templates on page load
+    loadTemplates();
+    
+    // Load selected template
+    $('#load-template-btn').on('click', function() {
+        const templateName = $('#template-selector').val();
+        if (!templateName) {
+            alert('Please select a template to load');
+            return;
+        }
+        
+        $.post(cddu_ajax.ajax_url, {
+            action: 'cddu_load_template',
+            template_name: templateName,
+            nonce: cddu_ajax.nonce
+        }, function(response) {
+            if (response.success) {
+                // Set content in TinyMCE editor
+                if (typeof tinyMCE !== 'undefined' && tinyMCE.get('contract_content')) {
+                    tinyMCE.get('contract_content').setContent(response.data.content);
+                } else {
+                    $('#contract_content').val(response.data.content);
+                }
+                alert('Template loaded successfully!');
+            } else {
+                alert('Error: ' + (response.data.message || 'Failed to load template'));
+            }
+        });
+    });
+    
+    // Save current content as template
+    $('#save-template-btn').on('click', function() {
+        const templateName = $('#template-name').val();
+        if (!templateName) {
+            alert('Please enter a template name');
+            return;
+        }
+        
+        // Get current editor content
+        let content = '';
+        if (typeof tinyMCE !== 'undefined' && tinyMCE.get('contract_content')) {
+            content = tinyMCE.get('contract_content').getContent();
+        } else {
+            content = $('#contract_content').val();
+        }
+        
+        if (!content) {
+            alert('Please enter some content to save as template');
+            return;
+        }
+        
+        $.post(cddu_ajax.ajax_url, {
+            action: 'cddu_save_template',
+            template_name: templateName,
+            template_content: content,
+            nonce: cddu_ajax.nonce
+        }, function(response) {
+            if (response.success) {
+                alert(response.data.message);
+                $('#template-name').val('');
+                loadTemplates(); // Refresh template list
+            } else {
+                alert('Error: ' + (response.data.message || 'Failed to save template'));
             }
         });
     });

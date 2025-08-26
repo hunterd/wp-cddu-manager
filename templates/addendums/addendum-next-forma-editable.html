@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Avenant n° {{addendum.number}} au Contrat de Travail à Durée Déterminée</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            margin: 20px;
+        }
+        .header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .parties {
+            margin-bottom: 30px;
+        }
+        .party {
+            margin-bottom: 20px;
+        }
+        .articles {
+            margin-bottom: 30px;
+        }
+        .article {
+            margin-bottom: 25px;
+        }
+        .article-title {
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+        .work-breakdown {
+            margin: 15px 0;
+        }
+        .work-breakdown ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        .schedule-table {
+            margin: 15px 0;
+        }
+        .remuneration {
+            margin: 15px 0;
+        }
+        .signatures {
+            margin-top: 50px;
+            display: table;
+            width: 100%;
+        }
+        .signature-block {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            text-align: center;
+        }
+        .signature-space {
+            height: 80px;
+        }
+        .blank-line {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            min-width: 150px;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        Avenant n° {{addendum.number}} au Contrat de Travail à Durée Déterminée
+    </div>
+
+    <div class="parties">
+        <p><strong>ENTRE LES SOUSSIGNÉS,</strong></p>
+
+        <div class="party">
+            <p>La société <strong>{{organization.name}}</strong>, société à responsabilité limitée immatriculée au Registre du Commerce et des Sociétés de {{organization.registration_city}} sous le numéro {{organization.registration_number}},<br>
+            Dont le siège social est situé au {{organization.address}}<br>
+            Prise en la personne de {{organization.legal_representative_title}} {{organization.legal_representative}} en qualité de {{organization.legal_representative_role}},</p>
+
+            <p style="text-align: right; margin-right: 100px;"><strong>D'une part,</strong></p>
+        </div>
+
+        <div class="party">
+            <p>Et</p>
+
+            <p>{{instructor.civility}} {{instructor.first_name}} {{instructor.last_name}}<br>
+            Né le {{instructor.birth_date}} à {{instructor.birth_place}}<br>
+            Demeurant : {{instructor.address}}<br>
+            N° Sécurité Sociale : {{instructor.social_security_number}}</p>
+
+            <p style="text-align: right; margin-right: 100px;"><strong>D'autre part,</strong></p>
+        </div>
+
+        <p><strong>Il a été arrêté et convenu ce qui suit :</strong></p>
+    </div>
+
+    <div class="articles">
+        <div class="article">
+            <div class="article-title">ARTICLE 1 : Renouvellement du contrat de travail à durée déterminée</div>
+            <p>Le présent contrat de travail à durée déterminée, conclu le {{contract.start_date_formatted}}, pour une durée déterminée courant jusqu'au {{contract.end_date_formatted}}, sera renouvelé jusqu'au {{addendum.new_end_date_formatted}}.</p>
+        </div>
+
+        <div class="article">
+            <div class="article-title">ARTICLE 2 : Révision de l'article 3 intitulé « Durée du travail »</div>
+            <p>L'article 3 du contrat de travail à durée déterminée est révisé, et désormais rédigé comme suit :</p>
+            
+            <p>« À la demande de {{instructor.civility}} {{instructor.last_name}}, la durée de travail est fixée comme suit :</p>
+
+            <div class="work-breakdown">
+                <p>- {{calculations.total_hours}} heures pour le mois de {{addendum.month}}, décomposée comme suit :</p>
+                <ul>
+                    <li>{{calculations.animation_hours}} heures d'Acte de formation (AF),</li>
+                    <li>{{calculations.preparation_hours}} heures de Préparation et Recherches (PR).</li>
+                </ul>
+            </div>
+
+            <p>La répartition de la durée de travail sur les semaines de chaque mois est prévue comme suit :</p>
+
+            <div class="schedule-table">
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+                <p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+            </div>
+
+            <p>Le cas échéant, des heures complémentaires pourront être réalisées à la demande de la société {{organization.name}}, et ce, dans la limite d'un tiers de la durée mensuelle de travail susvisée, et moyennant le paiement des majorations de salaire conventionnelles en vigueur.</p>
+
+            <p>Les horaires de travail pour chaque journée travaillée seront remis à {{instructor.civility}} {{instructor.last_name}} par note d'information remise en main propre ou par courrier électronique ».</p>
+        </div>
+
+        <div class="article">
+            <div class="article-title">ARTICLE 3 : Révision de l'article 4 intitulé « Classification conventionnelle - Rémunération »</div>
+            <p>L'article 4 du contrat de travail à durée déterminée est révisé, et désormais rédigé comme suit :</p>
+
+            <p>« En application des dispositions de la Convention Collective Nationale des Organismes de Formation, l'emploi de {{instructor.job_title}} occupé par {{instructor.civility}} {{instructor.last_name}} est classé au {{instructor.classification_level}}, coefficient {{instructor.coefficient}}.</p>
+
+            <div class="remuneration">
+                <p>La rémunération mensuelle brute de {{instructor.civility}} {{instructor.last_name}} est définie à partir d'un taux horaire brut de {{calculations.hourly_rate}} €, comme suit :</p>
+
+                <p>{{addendum.month}} : {{calculations.hourly_rate}} € x {{calculations.total_hours}} heures = {{calculations.gross_monthly_salary}} €</p>
+
+                <p>Au terme du présent contrat de travail, {{instructor.civility}} {{instructor.last_name}} pourra bénéficier d'une indemnité dite d'usage égale à 6% de la rémunération brute versée au salarié au titre du présent contrat de travail à durée déterminée, dès lors que ledit contrat n'est pas poursuivi par un contrat de travail à durée indéterminée.</p>
+
+                <p>{{instructor.civility}} {{instructor.last_name}} bénéficiera également d'une indemnité de congés payés et de congés mobiles égale à 12 % des rémunérations incluses dans l'assiette de calcul des congés payés telle que définie par les dispositions légales et conventionnelles en vigueur ».</p>
+            </div>
+        </div>
+
+        <div class="article">
+            <div class="article-title">ARTICLE 4 : Prise d'effet</div>
+            <p>Le présent avenant prendra effet à compter du {{addendum.effective_date}}</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <p>Fait à {{organization.city}} en deux (2) exemplaires, le {{addendum.signature_date}}, dont un est remis à chacun des deux (2) signataires,</p>
+    </div>
+
+    <div class="signatures">
+        <div class="signature-block">
+            <p><strong>Pour la société {{organization.name}}</strong></p>
+            <p>{{organization.legal_representative_title}} {{organization.legal_representative}}</p>
+            <p>{{organization.legal_representative_role}}</p>
+            <div class="signature-space"></div>
+        </div>
+        <div class="signature-block">
+            <p><strong>{{instructor.civility}} {{instructor.first_name}} {{instructor.last_name}}</strong></p>
+            <div class="signature-space"></div>
+        </div>
+    </div>
+</body>
+</html>

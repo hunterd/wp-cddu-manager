@@ -1,0 +1,97 @@
+<?php
+/**
+ * Default addendum template with dynamic fields
+ * Variables: $contract, $instructor, $organization, $mission, $calc, $addendum_data
+ */
+?>
+
+<h1>AVENANT N° {{addendum.number}} AU CONTRAT DE TRAVAIL À DURÉE DÉTERMINÉE</h1>
+
+<h2>ENTRE LES SOUSSIGNÉS</h2>
+
+<p><strong>La société {{org.name}}</strong>, société à responsabilité limitée immatriculée au Registre du Commerce et des Sociétés de {{org.rcs_city}} sous le numéro {{org.rcs_number}},<br>
+Dont le siège social est situé au {{org.address}}<br>
+Prise en la personne de {{org.manager_title}} {{org.manager_name}} en qualité de {{org.manager_role}},</p>
+
+<p style="text-align: right; margin: 20px 0;"><strong>D'une part,</strong></p>
+
+<p><strong>Et</strong></p>
+
+<p>{{instructor.gender}} {{instructor.full_name}}<br>
+Né le {{instructor.birth_date}} à {{instructor.birth_place}}<br>
+Demeurant : {{instructor.address}}<br>
+N° Sécurité Sociale : {{instructor.social_security}}</p>
+
+<p style="text-align: right; margin: 20px 0;"><strong>D'autre part,</strong></p>
+
+<p><strong>Il a été arrêté et convenu ce qui suit :</strong></p>
+
+<h2>ARTICLE 1 : Renouvellement du contrat de travail à durée déterminée</h2>
+<p>Le présent contrat de travail à durée déterminée, conclu le {{contract.original_date}}, pour une durée déterminée courant jusqu'au {{contract.original_end_date}}, sera renouvelé jusqu'au {{mission.end_date}}.</p>
+
+<h2>ARTICLE 2 : Révision de l'article 3 intitulé « Durée du travail »</h2>
+<p>L'article 3 du contrat de travail à durée déterminée est révisé, et désormais rédigé comme suit :</p>
+
+<p>« À la demande de {{instructor.gender}} {{instructor.full_name}}, la durée de travail est fixée comme suit :</p>
+
+{{#each addendum.monthly_breakdown}}
+<p>- {{this.hours}} heures pour le mois de {{this.month}}, décomposée comme suit :</p>
+<ul>
+    <li>{{this.af_hours}} heures d'Acte de formation (AF),</li>
+    <li>{{this.pr_hours}} heures de Préparation et Recherches (PR).</li>
+</ul>
+{{/each}}
+
+<p>La répartition de la durée de travail sur les semaines de chaque mois est prévue comme suit :</p>
+
+{{#if addendum.weekly_schedule}}
+{{#each addendum.weekly_schedule}}
+<p>- Semaine du {{this.start_date}} au {{this.end_date}} : {{this.af_hours}} heures d'AF et {{this.pr_hours}} heures de PR,</p>
+{{/each}}
+{{else}}
+<p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+<p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+<p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+<p>- Semaine du _________ au _________ : __ heures d'AF et __ heures de PR,</p>
+{{/if}}
+
+<p>Le cas échéant, des heures complémentaires pourront être réalisées à la demande de la société {{org.name}}, et ce, dans la limite d'un tiers de la durée mensuelle de travail susvisée, et moyennant le paiement des majorations de salaire conventionnelles en vigueur.</p>
+
+<p>Les horaires de travail pour chaque journée travaillée seront remis à {{instructor.gender}} {{instructor.full_name}} par note d'information remise en main propre ou par courrier électronique ». </p>
+
+<h2>ARTICLE 3 : Révision de l'article 4 intitulé « Classification conventionnelle - Rémunération »</h2>
+<p>L'article 4 du contrat de travail à durée déterminée est révisé, et désormais rédigé comme suit :</p>
+
+<p>« En application des dispositions de la Convention Collective Nationale des Organismes de Formation, l'emploi de {{instructor.job_title}} occupé par {{instructor.gender}} {{instructor.full_name}} est classé au {{instructor.classification_level}}, coefficient {{instructor.coefficient}}.</p>
+
+<p>La rémunération mensuelle brute de {{instructor.gender}} {{instructor.full_name}} est définie à partir d'un taux horaire brut de {{mission.hourly_rate}} €, comme suit :</p>
+
+{{#each addendum.monthly_breakdown}}
+<p>{{this.month}} : {{../mission.hourly_rate}} € x {{this.hours}} heures = <strong>{{this.amount}} €</strong></p>
+{{/each}}
+
+<p>Au terme du présent contrat de travail, {{instructor.gender}} {{instructor.full_name}} pourra bénéficier d'une indemnité dite d'usage égale à 6% de la rémunération brute versée au salarié au titre du présent contrat de travail à durée déterminée, dès lors que ledit contrat n'est pas poursuivi par un contrat de travail à durée indéterminée.</p>
+
+<p>{{instructor.gender}} {{instructor.full_name}} bénéficiera également d'une indemnité de congés payés et de congés mobiles égale à 12 % des rémunérations incluses dans l'assiette de calcul des congés payés telle que définie par les dispositions légales et conventionnelles en vigueur ». </p>
+
+<h2>ARTICLE 4 : Prise d'effet</h2>
+<p>Le présent avenant prendra effet à compter du {{addendum.effective_date}}.</p>
+
+<p style="margin-top: 40px;">Fait à {{org.city}} en deux (2) exemplaires, le {{addendum.signature_date}}, dont un est remis à chacun des deux (2) signataires,</p>
+
+<table style="width: 100%; margin-top: 40px;">
+    <tr>
+        <td style="text-align: center; width: 50%;">
+            <strong>Pour la société {{org.name}}</strong><br>
+            {{org.manager_title}} {{org.manager_name}}<br>
+            {{org.manager_role}}
+        </td>
+        <td style="text-align: center; width: 50%;">
+            <strong>{{instructor.gender}} {{instructor.full_name}}</strong>
+        </td>
+    </tr>
+    <tr>
+        <td style="height: 80px; border-bottom: 1px solid #000; width: 50%;"></td>
+        <td style="height: 80px; border-bottom: 1px solid #000; width: 50%;"></td>
+    </tr>
+</table>
