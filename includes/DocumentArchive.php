@@ -61,7 +61,7 @@ class DocumentArchive {
 
         // Show signature requests
         $signature_requests = get_posts([
-            'post_type' => 'cddu_signature_request',
+            'post_type' => 'cddu_signature',
             'meta_query' => [
                 [
                     'key' => 'document_id',
@@ -233,7 +233,7 @@ class DocumentArchive {
 
         // Show signature requests for this addendum
         $signature_requests = get_posts([
-            'post_type' => 'cddu_signature_request',
+            'post_type' => 'cddu_signature',
             'meta_query' => [
                 [
                     'key' => 'document_id',

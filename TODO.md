@@ -14,9 +14,11 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
 - `includes/Autoloader.php` - autoloader
 - `includes/Calculations.php` - **✅ IMPLÉMENTÉ** - calculations engine with CDDU formulas
 - `includes/Plugin.php` - plugin class with all integrations
-- `includes/PostTypes.php` - **✅ ÉTENDU** - custom post types (contracts, addendums, timesheets, organizations, instructors, missions, notifications, signature requests)
+- `includes/PostTypes.php` - **✅ ÉTENDU** - custom post types (contracts, addendums, timesheets, organizations, instructors, missions, learners, notifications, signature requests)
 - `includes/Admin/SettingsPage.php` - admin settings UI
 - `includes/Admin/ContractManager.php` - **✅ NOUVEAU** - organization admin interface for contract management
+- `includes/Admin/MissionManager.php` - **✅ ÉTENDU** - comprehensive mission management interface with complete learner assignment
+- `includes/Admin/LearnerManager.php` - **✅ NOUVEAU** - complete learner management interface (CRUD) - **Optimisé**
 - `includes/Frontend/InstructorDashboard.php` - **✅ NOUVEAU** - instructor front-end dashboard
 - `includes/Rest/TimesheetsController.php` - REST controller for timesheets
 - `includes/TimesheetProcessor.php` - **✅ NOUVEAU** - automated timesheet processing and addendum generation
@@ -35,8 +37,13 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
 - `templates/emails/` - **✅ NOUVEAU** - email notification templates:
   - `contract-created.php`
   - `signature-requested.php`
+- `templates/admin/` - **✅ ÉTENDU** - admin interface templates:
+  - `create-mission-form.php` - comprehensive mission creation form with learner assignment
+  - `manage-missions.php` - mission management interface
+  - `create-learner-form.php` - **✅ NOUVEAU** - learner creation form
+  - `manage-learners.php` - **✅ NOUVEAU** - learner management interface with filtering
 
-> **Statut**: Système complet implémenté avec toutes les fonctionnalités principales opérationnelles.
+> **Statut**: Système complet implémenté avec toutes les fonctionnalités principales opérationnelles, incluant le nouveau Mission Manager.
 
 ## TODO (par étapes)
 1. Project setup & initial audit
@@ -72,11 +79,13 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
    - [x] Build forms for cddu_organization, cddu_instructor, cddu_mission input
    - [x] Enable adding instructors to an organization (admin interface) — ✅ **TERMINÉ** - forms for assigning/unassigning instructors, role/capability checks, input validation, REST endpoints, comprehensive organization edit interface with enhanced instructor assignment metabox featuring advanced search, filtering, bulk operations, real-time statistics, and improved user experience, and comprehensive organization edit interface with instructor assignment metabox, and unit tests
    - [x] Complete admin interface in `includes/Admin/ContractManager.php`
+   - [x] Complete mission management interface in `includes/Admin/MissionManager.php`
    - [x] Preview generated contract from templates
    - [x] Real-time calculations and PDF generation
    - [x] AJAX-powered forms with validation
    - [x] Fix double contract creation interface (removed post type metaboxes, kept ContractManager only)
    - [x] Disable WordPress standard "Add New" button via custom capabilities
+   - [x] Comprehensive mission creation and management system with filtering, sorting, and statistics
 
 5. Contrats - Gestion et interface ✅ **TERMINÉ**
    - [x] Interface unique de création via ContractManager (`/wp-admin/edit.php?post_type=cddu_contract&page=create-contract`)
@@ -166,6 +175,25 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
 
 ## Statut global : 🎯 **SYSTÈME OPÉRATIONNEL AVEC ÉDITEUR AVANCÉ + TEMPLATES D'AVENANTS**
 **13/13 composants majeurs terminés** (100% completion)
+
+### ✅ **NOUVEAU 2025-08-26** - Système complet de gestion des apprenants et saisie mission complète
+- **Post type cddu_learner** : Nouveau post type pour gérer les apprenants avec toutes leurs informations personnelles
+- **LearnerManager** : Interface d'administration complète pour la gestion CRUD des apprenants
+  - Formulaire de création d'apprenant (`create-learner-form.php`)
+  - Interface de gestion des apprenants (`manage-learners.php`) avec filtres et recherche
+  - Validation des données côté client et serveur
+  - Contrôles d'intégrité (empêche suppression si apprenant assigné à des missions)
+- **Saisie mission complète** : Extension du MissionManager avec tous les éléments requis
+  - **Apprenant** : Sélection multiple d'apprenants assignés à la mission
+  - **Action de formation** : Champ obligatoire pour définir l'action de formation
+  - **Modalités** : Sélection des modalités de formation (présentiel, distanciel, hybride, e-learning, etc.)
+  - **Lieu** : Déjà présent et fonctionnel
+  - **Période** : Start/end dates déjà présents et fonctionnels
+  - **Volume horaire** : Total hours déjà présent et fonctionnel
+  - **Taux horaire** : Hourly rate déjà présent et fonctionnel
+- **Validation complète** : Validation côté client et serveur pour tous les nouveaux champs obligatoires
+- **Interface utilisateur** : CSS et JavaScript dédiés pour une expérience utilisateur optimale
+- **Intégration système** : LearnerManager intégré dans Plugin.php, styles et scripts chargés automatiquement
 
 ### ✅ **NOUVEAU 2025-08-26** - Système complet de templates d'avenants
 - **Gestionnaire de templates d'avenants** : Interface d'administration complète

@@ -75,7 +75,7 @@ class SignatureManager {
 
             // Store signature request details
             $signature_request_id = wp_insert_post([
-                'post_type' => 'cddu_signature_request',
+                'post_type' => 'cddu_signature',
                 'post_title' => sprintf(
                     __('Signature Request - %s - %s', 'wp-cddu-manager'),
                     $signer['email'],
@@ -166,7 +166,7 @@ class SignatureManager {
 
         // Find signature request by provider ID
         $signature_requests = get_posts([
-            'post_type' => 'cddu_signature_request',
+            'post_type' => 'cddu_signature',
             'meta_query' => [
                 [
                     'key' => 'provider_request_id',
@@ -212,7 +212,7 @@ class SignatureManager {
      */
     private function check_document_signature_completion(int $document_id, string $document_type): void {
         $all_requests = get_posts([
-            'post_type' => 'cddu_signature_request',
+            'post_type' => 'cddu_signature',
             'meta_query' => [
                 [
                     'key' => 'document_id',

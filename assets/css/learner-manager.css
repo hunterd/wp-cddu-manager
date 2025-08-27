@@ -1,0 +1,63 @@
+/* Learner Manager Styles - Simplified for WordPress native integration */
+
+/* Learner form validation styles */
+.form-table tr.error td {
+    border-left: 4px solid #dc3232;
+    padding-left: 16px;
+}
+
+.form-table tr.error input,
+.form-table tr.error select,
+.form-table tr.error textarea {
+    border-color: #dc3232;
+}
+
+/* Learner form container */
+.cddu-learner-form-container {
+    max-width: 100%;
+}
+
+/* Form styling improvements */
+.form-table input[type="text"],
+.form-table input[type="email"],
+.form-table input[type="tel"],
+.form-table input[type="date"],
+.form-table select,
+.form-table textarea {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-table textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Required field indicator */
+.form-table th label::after {
+    content: "";
+}
+
+.form-table th label[for="learner_first_name"]::after,
+.form-table th label[for="learner_last_name"]::after {
+    content: " *";
+    color: #dc3232;
+    font-weight: bold;
+}
+
+/* Success/Error messages */
+.notice.cddu-learner-notice {
+    margin-top: 20px;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 782px) {
+    .form-table input[type="text"],
+    .form-table input[type="email"],
+    .form-table input[type="tel"],
+    .form-table input[type="date"],
+    .form-table select,
+    .form-table textarea {
+        max-width: 100%;
+    }
+}

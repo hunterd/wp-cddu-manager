@@ -18,6 +18,70 @@ class ContractManager {
         add_action('wp_ajax_cddu_get_contract_data', [$this, 'ajax_get_contract_data']);
     }
 
+    /**
+     * Register contract and addendum post types
+     */
+    public function register_post_types(): void {
+        register_post_type('cddu_contract', [
+            'label' => __('Contracts', 'wp-cddu-manager'),
+            'public' => false,
+            'show_ui' => true,
+            'menu_icon' => 'dashicons-media-text',
+            'supports' => ['title'],
+            'capability_type' => 'cddu_contract',
+            'capabilities' => [
+                'create_posts' => 'cddu_create_contracts_via_standard_ui', // Capability that nobody has
+                'edit_post' => 'edit_post',
+                'read_post' => 'read_post',
+                'delete_post' => 'delete_post',
+                'edit_posts' => 'edit_posts',
+                'edit_others_posts' => 'edit_others_posts',
+                'read_private_posts' => 'read_private_posts',
+                'delete_posts' => 'delete_posts',
+                'delete_private_posts' => 'delete_private_posts',
+                'delete_published_posts' => 'delete_published_posts',
+                'delete_others_posts' => 'delete_others_posts',
+                'edit_private_posts' => 'edit_private_posts',
+                'edit_published_posts' => 'edit_published_posts',
+            ],
+            'map_meta_cap' => true,
+        ]);
+
+        register_post_type('cddu_addendum', [
+            'label' => __('Addendums', 'wp-cddu-manager'),
+            'public' => false,
+            'show_ui' => true,
+            'menu_icon' => 'dashicons-media-document',
+            'supports' => ['title', 'custom-fields'],
+            'capability_type' => 'cddu_addendum',
+            'capabilities' => [
+                'create_posts' => 'cddu_create_addendums_via_standard_ui', // Capability that nobody has
+                'edit_post' => 'edit_post',
+                'read_post' => 'read_post',
+                'delete_post' => 'delete_post',
+                'edit_posts' => 'edit_posts',
+                'edit_others_posts' => 'edit_others_posts',
+                'read_private_posts' => 'read_private_posts',
+                'delete_posts' => 'delete_posts',
+                'delete_private_posts' => 'delete_private_posts',
+                'delete_published_posts' => 'delete_published_posts',
+                'delete_others_posts' => 'delete_others_posts',
+                'edit_private_posts' => 'edit_private_posts',
+                'edit_published_posts' => 'edit_published_posts',
+            ],
+            'map_meta_cap' => true,
+        ]);
+
+        register_post_type('cddu_timesheet', [
+            'label' => __('Timesheets', 'wp-cddu-manager'),
+            'public' => false,
+            'show_ui' => true,
+            'menu_icon' => 'dashicons-clock',
+            'supports' => ['title', 'custom-fields'],
+            'capability_type' => 'post',
+        ]);
+    }
+
     public function add_admin_menu(): void {
         add_submenu_page(
             'edit.php?post_type=cddu_contract',

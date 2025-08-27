@@ -3,7 +3,10 @@ namespace CDDU_Manager;
 
 use CDDU_Manager\Admin\SettingsPage;
 use CDDU_Manager\Admin\ContractManager;
+use CDDU_Manager\Admin\MissionManager;
 use CDDU_Manager\Admin\InstructorManager;
+use CDDU_Manager\Admin\LearnerManager;
+use CDDU_Manager\Admin\LearnerFormManager;
 use CDDU_Manager\Admin\ContractTemplateManager;
 use CDDU_Manager\Admin\AddendumTemplateManager;
 use CDDU_Manager\Frontend\InstructorDashboard;
@@ -14,22 +17,30 @@ use CDDU_Manager\Signature\DocusignProvider;
 
 class Plugin {
     public function init(): void {
+        $this->load_textdomain();
+        $this->initialize_components();
+        
+        // Add AJAX handler for mission data
+        add_action('wp_ajax_cddu_get_mission_data', [$this, 'ajax_get_mission_data']);
+    }
+    
+    /**
+     * Initialize all plugin components after translations are loaded
+     */
+    public function initialize_components(): void {
         // Initialize role management first
         new RoleManager();
         
         // Initialize PostTypes with hooks
         $post_types = new PostTypes();
+        $post_types->register();
         
-        add_action('init', function() use ($post_types) {
-            $post_types->register();
-            flush_rewrite_rules(); // Only needed during development
-        });
-
         (new SettingsPage())->hooks();
-        new ContractManager();
         new ContractTemplateManager();
         new AddendumTemplateManager();
         new InstructorManager();
+        
+        LearnerFormManager::get_instance();
         new InstructorDashboard();
         new TimesheetProcessor();
         new SignatureManager();
@@ -40,9 +51,6 @@ class Plugin {
             (new TimesheetsController())->register_routes();
             (new InstructorOrganizationController())->register_routes();
         });
-        
-        // Add AJAX handler for mission data
-        add_action('wp_ajax_cddu_get_mission_data', [$this, 'ajax_get_mission_data']);
     }
 
     /** Factory pour le provider de signature */
@@ -70,5 +78,16 @@ class Plugin {
         }
         
         wp_send_json_success($mission_data);
+    }
+
+    /**
+     * Load plugin text domain for translations
+     */
+    public function load_textdomain(): void {
+        load_plugin_textdomain(
+            'wp-cddu-manager',
+            false,
+            dirname(plugin_basename(CDDU_MNGR_FILE)) . '/languages'
+        );
     }
 }

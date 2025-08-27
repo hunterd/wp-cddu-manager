@@ -1,0 +1,35 @@
+/**
+ * Styles for learner form help page
+ */
+
+.cddu-help-content h2 {
+    color: #23282d;
+    border-bottom: 1px solid #ccd0d4;
+    padding-bottom: 8px;
+}
+
+.cddu-help-content h3 {
+    color: #646970;
+    margin-top: 2em;
+}
+
+.cddu-help-content dl {
+    margin-left: 20px;
+}
+
+.cddu-help-content dt {
+    margin-top: 1em;
+}
+
+.cddu-help-content dd {
+    margin-left: 20px;
+    color: #646970;
+}
+
+kbd {
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-family: monospace;
+}

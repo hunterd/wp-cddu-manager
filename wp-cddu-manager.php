@@ -25,10 +25,10 @@ register_activation_hook(__FILE__, function() {
     if ($role && !$role->has_cap('cddu_manage')) {
         $role->add_cap('cddu_manage');
     }
-    add_role('cddu_instructor', __('Instructor', 'wp-cddu-manager'), ['read' => true]);
-    add_role('cddu_organization_manager', __('organization manager', 'wp-cddu-manager'), ['read' => true]);
+    add_role('cddu_instructor', 'Instructor', ['read' => true]);
+    add_role('cddu_organization_manager', 'organization manager', ['read' => true]);
 });
 
-add_action('plugins_loaded', function() {
+add_action('init', function() {
     (new CDDU_Manager\Plugin())->init();
-});
+}, 5); // Priority 5 to ensure it runs before other init hooks
