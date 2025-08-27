@@ -709,7 +709,7 @@ class NotificationManager {
                                     <td><?php echo esc_html(get_the_date('d/m/Y H:i', $notification)); ?></td>
                                     <td><?php echo esc_html($notification_data['type'] ?? ''); ?></td>
                                     <td><?php echo esc_html($notification->post_title); ?></td>
-                                    <td><?php echo esc_html(implode(', ', array_slice($recipients, 0, 3))); ?><?php if (count($recipients) > 3) echo ' +' . (count($recipients) - 3); ?></td>
+                                    <td><?php echo esc_html(implode(', ', array_slice($recipients, 0, 3))); ?><?php if (count($recipients) > 3) echo esc_html(sprintf(__(' +%d more', 'wp-cddu-manager'), count($recipients) - 3)); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

@@ -5,6 +5,7 @@ class AddendumTemplateManager {
     
     public function __construct() {
         add_action('admin_menu', [$this, 'add_admin_menu']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
         add_action('wp_ajax_cddu_save_addendum_template', [$this, 'ajax_save_template']);
         add_action('wp_ajax_cddu_load_addendum_template', [$this, 'ajax_load_template']);
         add_action('wp_ajax_cddu_delete_addendum_template', [$this, 'ajax_delete_template']);
@@ -23,6 +24,37 @@ class AddendumTemplateManager {
         );
     }
 
+    public function enqueue_scripts($hook): void {
+        if ($hook !== 'cddu_addendum_page_addendum-templates') {
+            return;
+        }
+
+        wp_enqueue_style(
+            'cddu-addendum-templates',
+            CDDU_MNGR_URL . 'assets/css/addendum-templates.css',
+            [],
+            CDDU_MNGR_VERSION
+        );
+
+        wp_enqueue_script(
+            'cddu-addendum-templates',
+            CDDU_MNGR_URL . 'assets/js/addendum-templates.js',
+            ['jquery'],
+            CDDU_MNGR_VERSION,
+            true
+        );
+
+        wp_localize_script('cddu-addendum-templates', 'cddu_addendum_templates', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'strings' => [
+                'no_custom_templates' => __('No custom templates found. Create your first template!', 'wp-cddu-manager'),
+                'edit_template_title' => __('Edit Addendum Template', 'wp-cddu-manager'),
+                'create_template_title' => __('Create New Addendum Template', 'wp-cddu-manager'),
+                'confirm_delete' => __('Are you sure you want to delete this template?', 'wp-cddu-manager')
+            ]
+        ]);
+    }
+    
     public function render_templates_page(): void {
         $templates = $this->get_saved_templates();
         $default_templates = $this->get_default_templates();

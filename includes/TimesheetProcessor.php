@@ -51,10 +51,14 @@ class TimesheetProcessor {
         if (!$contract_data) {
             return false;
         }
-
+        
         $annual_hours = floatval($contract_data['annual_hours'] ?? 0);
+        $organization_id = intval($contract_data['organization_id'] ?? 0);
         $start_date = new \DateTime($contract_data['start_date'] ?? 'now');
         $end_date = new \DateTime($contract_data['end_date'] ?? 'now');
+        
+        // Get organization's daily working hours for more accurate calculations
+        $daily_working_hours = \CDDU_Manager\Calculations::get_organization_daily_hours($organization_id);
         
         // Calculate planned hours for this month
         $month_start = new \DateTime("$year-" . date('m', strtotime($month)) . "-01");
@@ -69,9 +73,11 @@ class TimesheetProcessor {
             return false; // No overlap with contract period
         }
         
-        // Calculate expected hours for this period
+        // Calculate expected hours for this period using organization's daily working hours
         $total_contract_days = $start_date->diff($end_date)->days + 1;
         $month_contract_days = $period_start->diff($period_end)->days + 1;
+        
+        // Use organization's daily working hours to calculate more accurate expectations
         $expected_monthly_hours = ($annual_hours / $total_contract_days) * $month_contract_days;
         
         // Allow 10% tolerance
@@ -85,7 +91,8 @@ class TimesheetProcessor {
                 'actual_hours' => $hours_worked,
                 'excess_hours' => $hours_difference,
                 'month' => $month,
-                'year' => $year
+                'year' => $year,
+                'daily_working_hours' => $daily_working_hours
             ];
         }
         
@@ -96,14 +103,13 @@ class TimesheetProcessor {
                 'type' => 'annual_exceeded',
                 'annual_hours' => $annual_hours,
                 'total_worked' => $total_worked_hours,
-                'excess_hours' => $total_worked_hours - $annual_hours
+                'excess_hours' => $total_worked_hours - $annual_hours,
+                'daily_working_hours' => $daily_working_hours
             ];
         }
         
         return false;
-    }
-
-    /**
+    }    /**
      * Get total worked hours for a contract across all timesheets
      */
     private function get_total_worked_hours(int $contract_id): float {
@@ -283,12 +289,13 @@ class TimesheetProcessor {
         $new_annual_hours = $contract_data['annual_hours'] + $additional_hours;
         $hourly_rate = $contract_data['hourly_rate'] ?? 0;
         
-        // Recalculate with new hours
+        // Recalculate with new hours including organization_id for daily working hours
         $new_calculations = Calculations::calculate_contract_values([
             'annual_hours' => $new_annual_hours,
             'hourly_rate' => $hourly_rate,
             'start_date' => $contract_data['start_date'],
-            'end_date' => $contract_data['end_date']
+            'end_date' => $contract_data['end_date'],
+            'organization_id' => $contract_data['organization_id'] ?? 0
         ]);
 
         $addendum_details = [

@@ -173,7 +173,7 @@
             
             // Prevent unchecking instructors with active contracts
             if (type === 'instructor' && !isChecked && hasSpecialAttribute) {
-                if (!confirm('This instructor has active contracts. Are you sure you want to unassign them? This may affect ongoing contracts.')) {
+                if (!confirm(__('This instructor has active contracts. Are you sure you want to unassign them? This may affect ongoing contracts.', 'wp-cddu-manager'))) {
                     $checkbox.prop('checked', true);
                     return;
                 }
@@ -213,8 +213,8 @@
         if ($resultsCount.length) {
             $resultsCount.text(
                 totalVisible === totalAll 
-                    ? `Showing all ${totalAll} ${type}s`
-                    : `Showing ${totalVisible} of ${totalAll} ${type}s`
+                    ? __('Showing all', 'wp-cddu-manager') + ` ${totalAll} ${type}s`
+                    : __('Showing', 'wp-cddu-manager') + ` ${totalVisible} ` + __('of', 'wp-cddu-manager') + ` ${totalAll} ${type}s`
             );
         }
         
@@ -225,8 +225,8 @@
         if ($selectedCount.length) {
             $selectedCount.text(
                 selectedCount === visibleSelectedCount
-                    ? `${selectedCount} selected`
-                    : `${selectedCount} selected (${visibleSelectedCount} visible)`
+                    ? `${selectedCount} ` + __('selected', 'wp-cddu-manager')
+                    : `${selectedCount} ` + __('selected', 'wp-cddu-manager') + ` (${visibleSelectedCount} ` + __('visible', 'wp-cddu-manager') + `)`
             );
         }
         
@@ -251,7 +251,7 @@
 
     // Utility functions for translations
     function __(text) {
-        return text; // In a real implementation, this would handle translations
+        return wp.i18n.__ ? wp.i18n.__(text, 'wp-cddu-manager') : text;
     }
 
     // Expose functions globally for potential external use
@@ -334,4 +334,77 @@
             };
         }
     };
+
+    // Organization Metabox Validation
+    function initializeOrganizationValidation() {
+        // Daily working hours validation
+        $('#daily_working_hours').on('change blur', function() {
+            const value = parseFloat($(this).val());
+            const $input = $(this);
+
+            if (isNaN(value) || value === '') {
+                $input.val(7);
+                showValidationMessage('daily_working_hours', wp.i18n.__('Invalid value. Reset to default: 7 hours', 'wp-cddu-manager'), 'warning');
+            } else if (value < 1) {
+                $input.val(1);
+                showValidationMessage('daily_working_hours', wp.i18n.__('Daily working hours cannot be less than 1 hour. Value adjusted to 1 hour.', 'wp-cddu-manager'), 'error');
+            } else if (value > 24) {
+                $input.val(24);
+                showValidationMessage('daily_working_hours', wp.i18n.__('Daily working hours cannot exceed 24 hours. Value adjusted to 24 hours.', 'wp-cddu-manager'), 'error');
+            } else {
+                hideValidationMessage('daily_working_hours');
+            }
+        });
+
+        // Working days per week validation
+        $('#working_days_per_week').on('change blur', function() {
+            const value = parseInt($(this).val());
+            const $input = $(this);
+
+            if (isNaN(value) || value === '') {
+                $input.val(5);
+                showValidationMessage('working_days_per_week', wp.i18n.__('Invalid value. Reset to default: 5 days', 'wp-cddu-manager'), 'warning');
+            } else if (value < 1) {
+                $input.val(1);
+                showValidationMessage('working_days_per_week', wp.i18n.__('Working days per week cannot be less than 1 day. Value adjusted to 1 day.', 'wp-cddu-manager'), 'error');
+            } else if (value > 7) {
+                $input.val(7);
+                showValidationMessage('working_days_per_week', wp.i18n.__('Working days per week cannot exceed 7 days. Value adjusted to 7 days.', 'wp-cddu-manager'), 'error');
+            } else {
+                hideValidationMessage('working_days_per_week');
+            }
+        });
+
+        // Hide messages when user starts typing
+        $('#daily_working_hours, #working_days_per_week').on('input', function() {
+            const elementId = $(this).attr('id');
+            hideValidationMessage(elementId);
+        });
+    }
+
+    function showValidationMessage(elementId, message, type = 'error') {
+        const $messageDiv = $('#' + elementId + '_message');
+        $messageDiv
+            .removeClass('validation-message error warning')
+            .addClass('validation-message ' + type)
+            .html(message)
+            .fadeIn(300);
+
+        // Auto-hide after 5 seconds
+        setTimeout(function() {
+            $messageDiv.fadeOut(300);
+        }, 5000);
+    }
+
+    function hideValidationMessage(elementId) {
+        $('#' + elementId + '_message').fadeOut(300);
+    }
+
+    // Initialize organization validation when DOM is ready
+    $(document).ready(function() {
+        if ($('#daily_working_hours').length > 0 || $('#working_days_per_week').length > 0) {
+            initializeOrganizationValidation();
+        }
+    });
+
 })(jQuery);

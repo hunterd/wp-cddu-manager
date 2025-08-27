@@ -9,6 +9,7 @@ class MissionManager {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
         add_action('wp_ajax_cddu_get_mission_data', [$this, 'ajax_get_mission_data']);
         add_action('wp_ajax_cddu_get_missions_for_organization', [$this, 'ajax_get_missions_for_organization']);
+        add_action('wp_ajax_cddu_get_organization_data', [$this, 'ajax_get_organization_data']);
         
         // Hook to replace mission edit interface
         add_action('add_meta_boxes', [$this, 'add_mission_edit_metabox']);
@@ -83,9 +84,36 @@ class MissionManager {
                 CDDU_MNGR_VERSION
             );
 
+            wp_enqueue_style(
+                'cddu-notifications',
+                CDDU_MNGR_URL . 'assets/css/cddu-notifications.css',
+                [],
+                CDDU_MNGR_VERSION
+            );
+
+            wp_enqueue_script(
+                'cddu-notifications',
+                CDDU_MNGR_URL . 'assets/js/cddu-notifications.js',
+                ['jquery'],
+                CDDU_MNGR_VERSION,
+                true
+            );
+
+            wp_enqueue_script('wp-i18n');
+            
             wp_enqueue_script(
                 'cddu-mission-manager',
                 CDDU_MNGR_URL . 'assets/js/mission-manager.js',
+                ['jquery', 'cddu-notifications', 'wp-i18n'],
+                CDDU_MNGR_VERSION,
+                true
+            );
+            
+            wp_set_script_translations('cddu-mission-manager', 'wp-cddu-manager');
+
+            wp_enqueue_script(
+                'mission-schedule-budget',
+                CDDU_MNGR_URL . 'assets/js/mission-schedule-budget.js',
                 ['jquery'],
                 CDDU_MNGR_VERSION,
                 true
@@ -99,6 +127,16 @@ class MissionManager {
                     'mission_updated' => __('Mission updated successfully', 'wp-cddu-manager'),
                     'validation_error' => __('Please fill in all required fields', 'wp-cddu-manager'),
                     'loading' => __('Loading...', 'wp-cddu-manager'),
+                    'confirm_delete' => __('Are you sure you want to delete this mission?', 'wp-cddu-manager'),
+                    'confirm_duplicate' => __('Are you sure you want to duplicate this mission?', 'wp-cddu-manager'),
+                ]
+            ]);
+
+            wp_localize_script('mission-schedule-budget', 'cdduMissionSchedule', [
+                'nonce' => wp_create_nonce('cddu_mission_nonce'),
+                'i18n' => [
+                    'hoursPerDay' => __('hours/day', 'wp-cddu-manager'),
+                    'days' => __('days', 'wp-cddu-manager')
                 ]
             ]);
         }
@@ -234,18 +272,52 @@ class MissionManager {
         wp_send_json_success(['missions' => $missions_data]);
     }
 
+    public function ajax_get_organization_data(): void {
+        check_ajax_referer('cddu_mission_nonce', 'nonce');
+        
+        $organization_id = intval($_POST['organization_id'] ?? 0);
+        if (!$organization_id) {
+            wp_send_json_error(['message' => __('Invalid organization ID', 'wp-cddu-manager')]);
+        }
+
+        $organization_post = get_post($organization_id);
+        if (!$organization_post || $organization_post->post_type !== 'cddu_organization') {
+            wp_send_json_error(['message' => __('Organization not found', 'wp-cddu-manager')]);
+        }
+
+        $org_data = get_post_meta($organization_id, 'org', true);
+        $org_data = maybe_unserialize($org_data) ?: [];
+        
+        $daily_working_hours = (float) ($org_data['daily_working_hours'] ?? 7.0);
+        
+        wp_send_json_success([
+            'organization_id' => $organization_id,
+            'name' => $organization_post->post_title,
+            'daily_working_hours' => $daily_working_hours
+        ]);
+    }
+
     private function calculate_mission_stats(array $mission_data): array {
         $start_date = strtotime($mission_data['start_date']);
         $end_date = strtotime($mission_data['end_date']);
         $duration_days = ($end_date - $start_date) / (24 * 60 * 60);
         
         $total_budget = $mission_data['total_hours'] * $mission_data['hourly_rate'];
+        
+        // Get organization daily working hours
+        $organization_id = (int) ($mission_data['organization_id'] ?? 0);
+        $daily_working_hours = Calculations::get_organization_daily_hours($organization_id);
+        
+        // Calculate hours per day based on organization's daily working hours
+        $working_days = $duration_days > 0 ? $mission_data['total_hours'] / $daily_working_hours : 0;
         $hours_per_day = $duration_days > 0 ? $mission_data['total_hours'] / $duration_days : 0;
         
         return [
             'duration_days' => $duration_days,
             'total_budget' => $total_budget,
             'hours_per_day' => round($hours_per_day, 2),
+            'working_days' => round($working_days, 2),
+            'daily_working_hours' => $daily_working_hours,
         ];
     }
     

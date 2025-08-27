@@ -11,6 +11,8 @@
 <div class="wrap">
     <h1><?php echo esc_html__('Create CDDU Contract', 'wp-cddu-manager'); ?></h1>
     
+    <div id="contract-notifications" class="cddu-notifications-container"></div>
+    
     <form id="contract-form">
         <?php wp_nonce_field('cddu_contract_nonce', 'contract_nonce'); ?>
         
@@ -336,6 +338,18 @@ Fait à {{org.city}}, le {{current_date}}.
                 <tr>
                     <th scope="row"><?php echo esc_html__('Total hours (H_t)', 'wp-cddu-manager'); ?></th>
                     <td id="calc-ht">-</td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php echo esc_html__('Daily intensity', 'wp-cddu-manager'); ?></th>
+                    <td id="calc-daily-intensity">-</td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php echo esc_html__('Working days needed', 'wp-cddu-manager'); ?></th>
+                    <td id="calc-working-days">-</td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php echo esc_html__('Daily working hours (Org)', 'wp-cddu-manager'); ?></th>
+                    <td id="calc-daily-working-hours">-</td>
                 </tr>
                 <tr>
                     <th scope="row"><?php echo esc_html__('Gross amount', 'wp-cddu-manager'); ?></th>

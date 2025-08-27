@@ -46,41 +46,11 @@ if (!defined('ABSPATH')) {
             <strong><?php _e('Hours per Day:', 'wp-cddu-manager'); ?></strong> 
             <span id="mission-hours-per-day">-</span>
         </p>
+        <p>
+            <strong><?php _e('Working Days:', 'wp-cddu-manager'); ?></strong> 
+            <span id="mission-working-days">-</span> |
+            <strong><?php _e('Daily Working Hours (Org):', 'wp-cddu-manager'); ?></strong> 
+            <span id="mission-daily-working-hours">-</span>
+        </p>
     </div>
 </div>
-
-<script>
-jQuery(document).ready(function($) {
-    // Mission calculations
-    function calculateMissionStats() {
-        const startDate = $('#start_date').val();
-        const endDate = $('#end_date').val();
-        const totalHours = parseFloat($('#total_hours').val()) || 0;
-        const hourlyRate = parseFloat($('#hourly_rate').val()) || 0;
-        
-        if (startDate && endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const timeDiff = Math.abs(end.getTime() - start.getTime());
-            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-            
-            $('#mission-duration').text(daysDiff + ' <?php _e("days", "wp-cddu-manager"); ?>');
-            
-            if (totalHours > 0) {
-                const hoursPerDay = (totalHours / daysDiff).toFixed(1);
-                $('#mission-hours-per-day').text(hoursPerDay + ' <?php _e("hours/day", "wp-cddu-manager"); ?>');
-            }
-        }
-        
-        if (totalHours > 0 && hourlyRate > 0) {
-            const totalBudget = totalHours * hourlyRate;
-            $('#mission-total-budget').text(totalBudget.toFixed(2) + ' €');
-        }
-    }
-    
-    $('#start_date, #end_date, #total_hours, #hourly_rate').on('change keyup', calculateMissionStats);
-    
-    // Initial calculation
-    calculateMissionStats();
-});
-</script>

@@ -149,6 +149,9 @@ class ContractManager {
             return;
         }
         
+        // Enqueue wp-i18n for translations
+        wp_enqueue_script('wp-i18n');
+        
         if ($hook === 'cddu_contract_page_create-addendum') {
             wp_enqueue_style(
                 'cddu-addendum-form',
@@ -157,21 +160,55 @@ class ContractManager {
                 CDDU_MNGR_VERSION
             );
             
+            wp_enqueue_style(
+                'cddu-notifications',
+                CDDU_MNGR_URL . 'assets/css/cddu-notifications.css',
+                [],
+                CDDU_MNGR_VERSION
+            );
+            
+            wp_enqueue_script(
+                'cddu-notifications',
+                CDDU_MNGR_URL . 'assets/js/cddu-notifications.js',
+                ['jquery'],
+                CDDU_MNGR_VERSION,
+                true
+            );
+            
             wp_enqueue_script(
                 'cddu-addendum-manager',
                 CDDU_MNGR_URL . 'assets/js/addendum-manager.js',
+                ['jquery', 'cddu-notifications', 'wp-i18n'],
+                CDDU_MNGR_VERSION,
+                true
+            );
+            
+            wp_set_script_translations('cddu-addendum-manager', 'wp-cddu-manager');
+        } else {
+            wp_enqueue_style(
+                'cddu-notifications',
+                CDDU_MNGR_URL . 'assets/css/cddu-notifications.css',
+                [],
+                CDDU_MNGR_VERSION
+            );
+            
+            wp_enqueue_script(
+                'cddu-notifications',
+                CDDU_MNGR_URL . 'assets/js/cddu-notifications.js',
                 ['jquery'],
                 CDDU_MNGR_VERSION,
                 true
             );
-        } else {
+            
             wp_enqueue_script(
                 'cddu-contract-manager',
                 CDDU_MNGR_URL . 'assets/js/contract-manager.js',
-                ['jquery'],
+                ['jquery', 'cddu-notifications', 'wp-i18n'],
                 CDDU_MNGR_VERSION,
                 true
             );
+            
+            wp_set_script_translations('cddu-contract-manager', 'wp-cddu-manager');
         }
         
         wp_localize_script($hook === 'cddu_contract_page_create-addendum' ? 'cddu-addendum-manager' : 'cddu-contract-manager', 'cddu_ajax', [
@@ -237,6 +274,7 @@ class ContractManager {
             'hourly_rate' => floatval($_POST['hourly_rate'] ?? 0),
             'start_date' => sanitize_text_field($_POST['start_date'] ?? ''),
             'end_date' => sanitize_text_field($_POST['end_date'] ?? ''),
+            'organization_id' => intval($_POST['organization_id'] ?? 0),
         ];
         
         if (empty($data['start_date']) || empty($data['end_date'])) {

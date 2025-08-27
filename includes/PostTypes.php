@@ -8,6 +8,7 @@ use CDDU_Manager\Admin\OrganizationManager;
 use CDDU_Manager\Admin\NotificationManager;
 use CDDU_Manager\Admin\SignatureManager;
 use CDDU_Manager\Admin\InstructorManager;
+use CDDU_Manager\Admin\HolidayCalendarManager;
 
 class PostTypes {
     private $contractManager;
@@ -17,6 +18,7 @@ class PostTypes {
     private $notificationManager;
     private $signatureManager;
     private $instructorManager;
+    private $holidayCalendarManager;
 
     public function __construct() {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_styles']);
@@ -29,6 +31,7 @@ class PostTypes {
         $this->notificationManager = new NotificationManager();
         $this->signatureManager = new SignatureManager();
         $this->instructorManager = new InstructorManager();
+        $this->holidayCalendarManager = new HolidayCalendarManager();
     }
 
     public function enqueue_admin_styles($hook): void {
@@ -38,7 +41,7 @@ class PostTypes {
         }
 
         global $post_type;
-        if (!in_array($post_type, ['cddu_organization', 'cddu_contract', 'cddu_mission', 'cddu_learner', 'cddu_notification', 'cddu_signature'])) {
+        if (!in_array($post_type, ['cddu_organization', 'cddu_contract', 'cddu_mission', 'cddu_learner', 'cddu_notification', 'cddu_signature', 'cddu_holiday'])) {
             return;
         }
 
@@ -59,10 +62,12 @@ class PostTypes {
         wp_enqueue_script(
             'cddu-admin-organization',
             CDDU_MNGR_URL . 'assets/js/admin-organization.js',
-            ['jquery'],
+            ['jquery', 'wp-i18n'],
             CDDU_MNGR_VERSION,
             true
         );
+        
+        wp_set_script_translations('cddu-admin-organization', 'wp-cddu-manager');
     }
 
     public function register(): void {
@@ -73,6 +78,7 @@ class PostTypes {
         $this->organizationManager->register_post_type();
         $this->notificationManager->register_post_type();
         $this->signatureManager->register_post_type();
+        $this->holidayCalendarManager->register_post_type();
 
         // Setup metaboxes and hooks
         add_action('save_post_cddu_organization', [$this->organizationManager, 'save_organization_meta'], 10, 2);
@@ -80,6 +86,7 @@ class PostTypes {
         add_action('save_post_cddu_learner', [$this->learnerManager, 'save_learner_meta'], 10, 2);
         add_action('save_post_cddu_notification', [$this->notificationManager, 'save_notification_meta'], 10, 2);
         add_action('save_post_cddu_signature', [$this->signatureManager, 'save_signature_meta'], 10, 2);
+        add_action('save_post_cddu_holiday', [$this->holidayCalendarManager, 'save_holiday_calendar_meta'], 10, 2);
         
         // Remove pending status from learner post type
         add_action('admin_footer-post.php', [$this->learnerManager, 'remove_pending_status_from_learners']);

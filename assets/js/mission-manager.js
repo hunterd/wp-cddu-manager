@@ -302,7 +302,7 @@
             
             const missionId = $(e.target).data('mission-id');
             
-            if (confirm('Are you sure you want to duplicate this mission?')) {
+            if (confirm(cddu_mission_ajax.strings.confirm_duplicate)) {
                 // Implementation for duplicating mission
                 this.showMessage('Mission duplication is not yet implemented.', 'error');
             }

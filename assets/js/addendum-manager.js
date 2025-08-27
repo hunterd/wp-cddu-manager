@@ -4,6 +4,11 @@
  */
 
 jQuery(document).ready(function($) {
+    // Utility functions for translations
+    function __(text) {
+        return text; // In a real implementation, this would handle translations
+    }
+
     let weekCounter = 0;
     
     // Calculate addendum values
@@ -36,23 +41,35 @@ jQuery(document).ready(function($) {
             type: 'POST',
             data: formData + '&action=cddu_generate_addendum&nonce=' + cddu_ajax.nonce,
             beforeSend: function() {
-                $('#generate-addendum-btn').prop('disabled', true).text('Generating...');
+                $('#generate-addendum-btn').prop('disabled', true).text(__('Generating...', 'wp-cddu-manager'));
             },
             success: function(response) {
                 if (response.success) {
-                    alert('Addendum created successfully!');
+                    CDDUNotifications.show(
+                        __('Addendum created successfully!', 'wp-cddu-manager'),
+                        'success',
+                        'addendum-notifications'
+                    );
                     if (response.data.edit_url) {
                         window.location.href = response.data.edit_url;
                     }
                 } else {
-                    alert('Error: ' + (response.data.message || 'Unknown error'));
+                    CDDUNotifications.show(
+                        __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Unknown error', 'wp-cddu-manager')),
+                        'error',
+                        'addendum-notifications'
+                    );
                 }
             },
             error: function() {
-                alert('Ajax error occurred');
+                CDDUNotifications.show(
+                    __('Ajax error occurred', 'wp-cddu-manager'),
+                    'error',
+                    'addendum-notifications'
+                );
             },
             complete: function() {
-                $('#generate-addendum-btn').prop('disabled', false).text('Generate Addendum PDF');
+                $('#generate-addendum-btn').prop('disabled', false).text(__('Generate Addendum PDF', 'wp-cddu-manager'));
             }
         });
     });
@@ -66,7 +83,7 @@ jQuery(document).ready(function($) {
             type: 'POST',
             data: formData + '&action=cddu_preview_addendum&nonce=' + cddu_ajax.nonce,
             beforeSend: function() {
-                $('#preview-addendum-btn').prop('disabled', true).text('Generating Preview...');
+                $('#preview-addendum-btn').prop('disabled', true).text(__('Generating Preview...', 'wp-cddu-manager'));
             },
             success: function(response) {
                 if (response.success) {
@@ -75,14 +92,22 @@ jQuery(document).ready(function($) {
                     previewWindow.document.write(response.data.html);
                     previewWindow.document.close();
                 } else {
-                    alert('Error: ' + (response.data.message || 'Unknown error'));
+                    CDDUNotifications.show(
+                        __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Unknown error', 'wp-cddu-manager')),
+                        'error',
+                        'addendum-notifications'
+                    );
                 }
             },
             error: function() {
-                alert('Ajax error occurred');
+                CDDUNotifications.show(
+                    __('Ajax error occurred', 'wp-cddu-manager'),
+                    'error',
+                    'addendum-notifications'
+                );
             },
             complete: function() {
-                $('#preview-addendum-btn').prop('disabled', false).text('Preview Addendum');
+                $('#preview-addendum-btn').prop('disabled', false).text(__('Preview Addendum', 'wp-cddu-manager'));
             }
         });
     });
@@ -93,11 +118,11 @@ jQuery(document).ready(function($) {
         const weekItem = `
             <div class="weekly-schedule-item" data-week="${weekCounter}">
                 <button type="button" class="remove-week-btn" onclick="removeWeek(${weekCounter})">×</button>
-                <h4>Week ${weekCounter}</h4>
+                <h4>${__('Week', 'wp-cddu-manager')} ${weekCounter}</h4>
                 <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <label for="week_${weekCounter}_start_date">Start Date</label>
+                            <label for="week_${weekCounter}_start_date">${__('Start Date', 'wp-cddu-manager')}</label>
                         </th>
                         <td>
                             <input type="date" id="week_${weekCounter}_start_date" name="weeks[${weekCounter}][start_date]" class="regular-text" />
@@ -105,7 +130,7 @@ jQuery(document).ready(function($) {
                     </tr>
                     <tr>
                         <th scope="row">
-                            <label for="week_${weekCounter}_end_date">End Date</label>
+                            <label for="week_${weekCounter}_end_date">${__('End Date', 'wp-cddu-manager')}</label>
                         </th>
                         <td>
                             <input type="date" id="week_${weekCounter}_end_date" name="weeks[${weekCounter}][end_date]" class="regular-text" />
@@ -113,7 +138,7 @@ jQuery(document).ready(function($) {
                     </tr>
                     <tr>
                         <th scope="row">
-                            <label for="week_${weekCounter}_af_hours">AF Hours</label>
+                            <label for="week_${weekCounter}_af_hours">${__('AF Hours', 'wp-cddu-manager')}</label>
                         </th>
                         <td>
                             <input type="number" step="0.01" id="week_${weekCounter}_af_hours" name="weeks[${weekCounter}][af_hours]" class="regular-text" />
@@ -121,7 +146,7 @@ jQuery(document).ready(function($) {
                     </tr>
                     <tr>
                         <th scope="row">
-                            <label for="week_${weekCounter}_pr_hours">PR Hours</label>
+                            <label for="week_${weekCounter}_pr_hours">${__('PR Hours', 'wp-cddu-manager')}</label>
                         </th>
                         <td>
                             <input type="number" step="0.01" id="week_${weekCounter}_pr_hours" name="weeks[${weekCounter}][pr_hours]" class="regular-text" />

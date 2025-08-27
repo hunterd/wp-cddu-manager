@@ -37,13 +37,10 @@ class Plugin {
         (new SettingsPage())->hooks();
         new ContractTemplateManager();
         new AddendumTemplateManager();
-        new InstructorManager();
         
         new InstructorDashboard();
         new TimesheetProcessor();
-        new SignatureManager();
         new DocumentArchive();
-        new NotificationManager();
 
         add_action('rest_api_init', function() {
             (new TimesheetsController())->register_routes();

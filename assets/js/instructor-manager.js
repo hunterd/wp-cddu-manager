@@ -1,4 +1,9 @@
 jQuery(document).ready(function($) {
+    // Utility functions for translations
+    function __(text) {
+        return text; // In a real implementation, this would handle translations
+    }
+
     let currentOrganizationId = 0;
     let assignedInstructors = [];
     
@@ -7,7 +12,7 @@ jQuery(document).ready(function($) {
         const organizationId = $('#organization-select').val();
         
         if (!organizationId) {
-            showMessage(__('Please select an organization first'), 'error');
+            showMessage(__('select_organization_first'), 'error');
             return;
         }
         
@@ -17,7 +22,7 @@ jQuery(document).ready(function($) {
     // Search instructors
     $('#search-instructors').on('click', function() {
         if (!currentOrganizationId) {
-            showMessage(__('Please select an organization first'), 'error');
+            showMessage(__('select_organization_first'), 'error');
             return;
         }
         
@@ -84,16 +89,16 @@ jQuery(document).ready(function($) {
         const html = `
             <table class="form-table">
                 <tr>
-                    <th scope="row">${__('Name')}</th>
+                    <th scope="row">${__('name')}</th>
                     <td>${escapeHtml(organization.name || organization.title)}</td>
                 </tr>
                 <tr>
-                    <th scope="row">${__('Address')}</th>
-                    <td>${escapeHtml(organization.address || __('Not specified'))}</td>
+                    <th scope="row">${__('address')}</th>
+                    <td>${escapeHtml(organization.address || __('not_specified'))}</td>
                 </tr>
                 <tr>
-                    <th scope="row">${__('Legal Representative')}</th>
-                    <td>${escapeHtml(organization.legal_representative || __('Not specified'))}</td>
+                    <th scope="row">${__('legal_representative')}</th>
+                    <td>${escapeHtml(organization.legal_representative || __('not_specified'))}</td>
                 </tr>
             </table>
         `;
@@ -103,7 +108,7 @@ jQuery(document).ready(function($) {
     function displayAssignedInstructors(instructors) {
         if (instructors.length === 0) {
             $('#assigned-instructors-list').html(`
-                <p class="description">${__('No instructors assigned to this organization.')}</p>
+                <p class="description">${__('no_instructors_assigned')}</p>
             `);
             return;
         }
@@ -166,7 +171,7 @@ jQuery(document).ready(function($) {
     
     function createInstructorItem(instructor, isAssigned) {
         const fullName = instructor.full_name || `${instructor.first_name || ''} ${instructor.last_name || ''}`.trim() || instructor.title;
-        const address = instructor.address || __('No address specified');
+        const address = instructor.address || __('no_address_specified');
         const contractsCount = instructor.active_contracts || 0;
         const assignedDate = instructor.assigned_date ? new Date(instructor.assigned_date).toLocaleDateString() : '';
         
@@ -177,8 +182,8 @@ jQuery(document).ready(function($) {
                     <div class="details">
                         <div>${escapeHtml(address)}</div>
                         ${isAssigned ? `<div class="instructor-stats">
-                            ${assignedDate ? `${__('Assigned')}: ${assignedDate}` : ''}
-                            ${contractsCount > 0 ? `<span class="contracts-count">${contractsCount} ${__('active contracts')}</span>` : ''}
+                            ${assignedDate ? `${__('assigned')}: ${assignedDate}` : ''}
+                            ${contractsCount > 0 ? `<span class="contracts-count">${contractsCount} ${__('active_contracts')}</span>` : ''}
                         </div>` : ''}
                     </div>
                 </div>
@@ -187,14 +192,14 @@ jQuery(document).ready(function($) {
                         <button type="button" class="button button-primary assign-btn" 
                                 data-instructor-id="${instructor.id}" 
                                 data-instructor-name="${escapeHtml(fullName)}">
-                            ${__('Assign')}
+                            ${__('assign')}
                         </button>
                     ` : `
                         <button type="button" class="button button-secondary unassign-btn" 
                                 data-instructor-id="${instructor.id}" 
                                 data-instructor-name="${escapeHtml(fullName)}"
-                                ${contractsCount > 0 ? 'disabled title="' + __('Cannot unassign instructor with active contracts') + '"' : ''}>
-                            ${__('Unassign')}
+                                ${contractsCount > 0 ? 'disabled title="' + __('cannot_unassign_instructor_with_active_contracts') + '"' : ''}>
+                            ${__('unassign')}
                         </button>
                     `}
                 </div>
@@ -207,7 +212,7 @@ jQuery(document).ready(function($) {
         const instructorId = $(this).data('instructor-id');
         const instructorName = $(this).data('instructor-name');
         
-        if (!confirm(`${__('Assign instructor')} "${instructorName}" ${__('to this organization')}?`)) {
+        if (!confirm(`${__('assign_instructor')} "${instructorName}" ${__('to_this_organization')}?`)) {
             return;
         }
         
@@ -317,9 +322,5 @@ jQuery(document).ready(function($) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
-    }
-    
-    function __(text) {
-        return cddu_instructor_ajax.strings[text] || text;
     }
 });

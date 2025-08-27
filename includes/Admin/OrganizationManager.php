@@ -199,6 +199,24 @@ class OrganizationManager {
 
         $org = $_POST['org'] ?? null;
         if ($org !== null) {
+            // Validate and sanitize the working days per week
+            if (isset($org['working_days_per_week'])) {
+                $working_days = intval($org['working_days_per_week']);
+                if ($working_days < 1 || $working_days > 7) {
+                    $working_days = 5; // Default to 5 days
+                }
+                $org['working_days_per_week'] = $working_days;
+            }
+            
+            // Validate and sanitize daily working hours
+            if (isset($org['daily_working_hours'])) {
+                $daily_hours = floatval($org['daily_working_hours']);
+                if ($daily_hours < 1 || $daily_hours > 24) {
+                    $daily_hours = 7.0; // Default to 7 hours
+                }
+                $org['daily_working_hours'] = $daily_hours;
+            }
+            
             update_post_meta($post_id, 'org', maybe_serialize($org));
         }
         

@@ -86,6 +86,18 @@
                                             <td><?php echo esc_html(number_format($calculations['intensity'] ?? 0, 2)); ?>h/week</td>
                                         </tr>
                                         <tr>
+                                            <th><?php echo esc_html__('Daily intensity', 'wp-cddu-manager'); ?></th>
+                                            <td><?php echo esc_html(number_format($calculations['daily_intensity'] ?? 0, 2)); ?>h/day</td>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo esc_html__('Working days needed', 'wp-cddu-manager'); ?></th>
+                                            <td><?php echo esc_html(number_format($calculations['working_days'] ?? 0, 1)); ?> days</td>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo esc_html__('Daily working hours (Org)', 'wp-cddu-manager'); ?></th>
+                                            <td><?php echo esc_html(number_format($calculations['daily_working_hours'] ?? 7, 1)); ?>h/day</td>
+                                        </tr>
+                                        <tr>
                                             <th><?php echo esc_html__('Preparation hours (H_p)', 'wp-cddu-manager'); ?></th>
                                             <td><?php echo esc_html(number_format($calculations['hp'] ?? 0, 2)); ?>h</td>
                                         </tr>

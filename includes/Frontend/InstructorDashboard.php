@@ -52,13 +52,17 @@ class InstructorDashboard {
 
     public function enqueue_scripts(): void {
         if (get_query_var('cddu_instructor_dashboard')) {
+            wp_enqueue_script('wp-i18n');
+            
             wp_enqueue_script(
                 'cddu-instructor-dashboard',
                 CDDU_MNGR_URL . 'assets/js/instructor-dashboard.js',
-                ['jquery'],
+                ['jquery', 'wp-i18n'],
                 CDDU_MNGR_VERSION,
                 true
             );
+            
+            wp_set_script_translations('cddu-instructor-dashboard', 'wp-cddu-manager');
             
             wp_localize_script('cddu-instructor-dashboard', 'cddu_instructor_ajax', [
                 'ajax_url' => admin_url('admin-ajax.php'),

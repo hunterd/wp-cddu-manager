@@ -5,6 +5,11 @@
 (function($) {
     'use strict';
 
+    // Utility functions for translations
+    function __(text) {
+        return text; // In a real implementation, this would handle translations
+    }
+
     class LearnerForm {
         constructor() {
             this.form = $('#post');

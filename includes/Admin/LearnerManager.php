@@ -22,7 +22,7 @@ class LearnerManager {
      */
     public function add_admin_menu(): void {
         add_submenu_page(
-            null, // No parent menu - this is a hidden page
+            'edit.php?post_type=cddu_learner',
             __('Learner Form Help', 'wp-cddu-manager'),
             __('Learner Form Help', 'wp-cddu-manager'),
             'edit_posts',

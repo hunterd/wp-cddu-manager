@@ -58,7 +58,7 @@ class SettingsPage {
         ];
         $posts = get_posts($args);
         if (empty($posts)) {
-            echo '<div class="wrap"><h1>Preview CDDU</h1><p>No contracts found. Create a contract first.</p></div>';
+            echo '<div class="wrap"><h1>' . esc_html__('Preview CDDU', 'wp-cddu-manager') . '</h1><p>' . esc_html__('No contracts found. Create a contract first.', 'wp-cddu-manager') . '</p></div>';
             return;
         }
         $post = $posts[0];
@@ -77,7 +77,7 @@ class SettingsPage {
         $template = CDDU_MNGR_PATH . 'templates/contracts/cddu.html.php';
         $html = \CDDU_Manager\DocumentGenerator::renderTemplate($template, ['org' => $org, 'formateur' => $formateur, 'mission' => $mission, 'calc' => $calc]);
 
-        echo '<div class="wrap"><h1>Preview CDDU</h1>';
+        echo '<div class="wrap"><h1>' . esc_html__('Preview CDDU', 'wp-cddu-manager') . '</h1>';
         echo '<div style="border:1px solid #ddd;padding:10px;background:#fff">';
         echo $html;
         echo '</div></div>';

@@ -44,6 +44,9 @@
 <p><?php echo esc_html__('Average weekly working time is set to', 'wp-cddu-manager'); ?> <?= esc_html(number_format($calc['intensity'] ?? $calc['intensite'] ?? 0, 2)) ?> <?php echo esc_html__('hours.', 'wp-cddu-manager'); ?>
 <?php echo esc_html__('The contract is concluded for the period shown above.', 'wp-cddu-manager'); ?></p>
 
+<p><?php echo esc_html__('Organization daily working hours:', 'wp-cddu-manager'); ?> <?= esc_html(number_format($calc['daily_working_hours'] ?? 7, 1)) ?> <?php echo esc_html__('hours per day.', 'wp-cddu-manager'); ?>
+<?php echo esc_html__('Total working days needed:', 'wp-cddu-manager'); ?> <?= esc_html(number_format($calc['working_days'] ?? 0, 1)) ?> <?php echo esc_html__('days.', 'wp-cddu-manager'); ?></p>
+
 <p style="margin-top:40px"><?php echo esc_html__('Done at', 'wp-cddu-manager'); ?> <?= esc_html($org['ville'] ?? '') ?>, <?php echo date('d/m/Y'); ?>.</p>
 <p><?php echo esc_html__('Organization signature', 'wp-cddu-manager'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo esc_html__('Instructor signature', 'wp-cddu-manager'); ?></p>
 </body>

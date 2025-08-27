@@ -1,0 +1,54 @@
+/**
+ * CDDU Manager Notification System Styles
+ * Clean, inline notifications styling
+ */
+
+.cddu-notification {
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    border-left: 4px solid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.cddu-notification-success {
+    background-color: #f0f9ff;
+    border-left-color: #10b981;
+    color: #065f46;
+}
+
+.cddu-notification-error {
+    background-color: #fef2f2;
+    border-left-color: #dc2626;
+    color: #991b1b;
+}
+
+.cddu-notification-warning {
+    background-color: #fffbeb;
+    border-left-color: #f59e0b;
+    color: #92400e;
+}
+
+.cddu-notification-info {
+    background-color: #eff6ff;
+    border-left-color: #3b82f6;
+    color: #1e40af;
+}
+
+#cddu-floating-notifications {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+.cddu-inline-notifications {
+    max-width: 100%;
+}
+
+.cddu-notifications-container {
+    margin: 20px 0;
+}

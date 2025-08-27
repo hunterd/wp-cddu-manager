@@ -1,4 +1,8 @@
 jQuery(document).ready(function($) {
+    // Utility functions for translations
+    function __(text) {
+        return text; // In a real implementation, this would handle translations
+    }
     
     // Auto-fill mission data when mission is selected
     $('#mission_id').on('change', function() {
@@ -30,11 +34,16 @@ jQuery(document).ready(function($) {
             hourly_rate: $('#hourly_rate').val(),
             start_date: $('#start_date').val(),
             end_date: $('#end_date').val(),
+            organization_id: $('#organization_id').val(),
             nonce: cddu_ajax.nonce
         };
         
         if (!formData.annual_hours || !formData.hourly_rate || !formData.start_date || !formData.end_date) {
-            alert('Please fill in all required fields (Annual hours, Hourly rate, Start date, End date)');
+            CDDUNotifications.show(
+                __('Please fill in all required fields (Annual hours, Hourly rate, Start date, End date)', 'wp-cddu-manager'),
+                'error',
+                'contract-notifications'
+            );
             return;
         }
         
@@ -45,6 +54,9 @@ jQuery(document).ready(function($) {
                 $('#calc-intensity').text(calc.intensity_formatted || (calc.intensity + ' h/week'));
                 $('#calc-hp').text(calc.hp_formatted || (calc.hp + ' h'));
                 $('#calc-ht').text(calc.ht_formatted || (calc.ht + ' h'));
+                $('#calc-daily-intensity').text(calc.daily_intensity_formatted || (calc.daily_intensity + ' h/day'));
+                $('#calc-working-days').text(calc.working_days_formatted || (calc.working_days + ' days'));
+                $('#calc-daily-working-hours').text(calc.daily_working_hours_formatted || (calc.daily_working_hours + ' h/day'));
                 $('#calc-gross').text(calc.gross_formatted || (calc.gross + ' €'));
                 $('#calc-bonus').text(calc.bonus_formatted || (calc.bonus + ' €'));
                 $('#calc-paid-leave').text(calc.paid_leave_formatted || (calc.paid_leave + ' €'));
@@ -52,7 +64,11 @@ jQuery(document).ready(function($) {
                 
                 $('#calculation-results').show();
             } else {
-                alert('Error: ' + (response.data.message || 'Calculation failed'));
+                CDDUNotifications.show(
+                    __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Calculation failed', 'wp-cddu-manager')),
+                    'error',
+                    'contract-notifications'
+                );
             }
         });
     });
@@ -83,18 +99,30 @@ jQuery(document).ready(function($) {
         };
         
         if (!formData.organization_id || !formData.instructor_user_id) {
-            alert('Please select an organization and instructor');
+            CDDUNotifications.show(
+                __('Please select an organization and instructor', 'wp-cddu-manager'),
+                'error',
+                'contract-notifications'
+            );
             return;
         }
         
         $.post(cddu_ajax.ajax_url, formData, function(response) {
             if (response.success) {
-                alert(response.data.message);
-                if (confirm('Contract created successfully! Would you like to edit it now?')) {
+                CDDUNotifications.show(
+                    response.data.message,
+                    'success',
+                    'contract-notifications'
+                );
+                if (confirm(__('Contract created successfully! Would you like to edit it now?', 'wp-cddu-manager'))) {
                     window.location.href = response.data.edit_url;
                 }
             } else {
-                alert('Error: ' + (response.data.message || 'Contract generation failed'));
+                CDDUNotifications.show(
+                    __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Contract generation failed', 'wp-cddu-manager')),
+                    'error',
+                    'contract-notifications'
+                );
             }
         });
     });
@@ -130,7 +158,11 @@ jQuery(document).ready(function($) {
                 previewWindow.document.write(response.data.html);
                 previewWindow.document.close();
             } else {
-                alert('Error: ' + (response.data.message || 'Preview failed'));
+                CDDUNotifications.show(
+                    __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Preview failed', 'wp-cddu-manager')),
+                    'error',
+                    'contract-notifications'
+                );
             }
         });
     });
@@ -158,7 +190,7 @@ jQuery(document).ready(function($) {
     });
     
     // Add tooltip to variable items
-    $('.variable-group li').attr('title', 'Click to insert this variable into the editor');
+    $('.variable-group li').attr('title', __('Click to insert this variable into the editor', 'wp-cddu-manager'));
     
     // Template management
     function loadTemplates() {
@@ -168,7 +200,7 @@ jQuery(document).ready(function($) {
         }, function(response) {
             if (response.success) {
                 const selector = $('#template-selector');
-                selector.empty().append('<option value="">-- Select Template --</option>');
+                selector.empty().append('<option value="">' + __('-- Select Template --', 'wp-cddu-manager') + '</option>');
                 
                 Object.keys(response.data.templates).forEach(function(templateName) {
                     selector.append('<option value="' + templateName + '">' + templateName + '</option>');
@@ -184,7 +216,11 @@ jQuery(document).ready(function($) {
     $('#load-template-btn').on('click', function() {
         const templateName = $('#template-selector').val();
         if (!templateName) {
-            alert('Please select a template to load');
+            CDDUNotifications.show(
+                __('Please select a template to load', 'wp-cddu-manager'),
+                'warning',
+                'contract-notifications'
+            );
             return;
         }
         
@@ -200,9 +236,17 @@ jQuery(document).ready(function($) {
                 } else {
                     $('#contract_content').val(response.data.content);
                 }
-                alert('Template loaded successfully!');
+                CDDUNotifications.show(
+                    __('Template loaded successfully!', 'wp-cddu-manager'),
+                    'success',
+                    'contract-notifications'
+                );
             } else {
-                alert('Error: ' + (response.data.message || 'Failed to load template'));
+                CDDUNotifications.show(
+                    __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Failed to load template', 'wp-cddu-manager')),
+                    'error',
+                    'contract-notifications'
+                );
             }
         });
     });
@@ -211,7 +255,11 @@ jQuery(document).ready(function($) {
     $('#save-template-btn').on('click', function() {
         const templateName = $('#template-name').val();
         if (!templateName) {
-            alert('Please enter a template name');
+            CDDUNotifications.show(
+                __('Please enter a template name', 'wp-cddu-manager'),
+                'warning',
+                'contract-notifications'
+            );
             return;
         }
         
@@ -224,7 +272,11 @@ jQuery(document).ready(function($) {
         }
         
         if (!content) {
-            alert('Please enter some content to save as template');
+            CDDUNotifications.show(
+                __('Please enter some content to save as template', 'wp-cddu-manager'),
+                'warning',
+                'contract-notifications'
+            );
             return;
         }
         
@@ -235,11 +287,19 @@ jQuery(document).ready(function($) {
             nonce: cddu_ajax.nonce
         }, function(response) {
             if (response.success) {
-                alert(response.data.message);
+                CDDUNotifications.show(
+                    response.data.message,
+                    'success',
+                    'contract-notifications'
+                );
                 $('#template-name').val('');
                 loadTemplates(); // Refresh template list
             } else {
-                alert('Error: ' + (response.data.message || 'Failed to save template'));
+                CDDUNotifications.show(
+                    __('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Failed to save template', 'wp-cddu-manager')),
+                    'error',
+                    'contract-notifications'
+                );
             }
         });
     });

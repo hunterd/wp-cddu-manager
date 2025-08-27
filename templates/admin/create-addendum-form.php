@@ -11,6 +11,9 @@
 <div class="wrap">
     <h1><?php echo esc_html__('Create Contract Addendum', 'wp-cddu-manager'); ?></h1>
     
+    <!-- Notifications container -->
+    <div id="addendum-notifications" class="cddu-notifications-container"></div>
+    
     <form id="addendum-form">
         <?php wp_nonce_field('cddu_addendum_nonce', 'addendum_nonce'); ?>
         

@@ -55,6 +55,20 @@ class InstructorManager {
                 'loading' => __('Loading...', 'wp-cddu-manager'),
                 'no_results' => __('No instructors found', 'wp-cddu-manager'),
                 'search_placeholder' => __('Search instructors...', 'wp-cddu-manager'),
+                'select_organization_first' => __('Please select an organization first', 'wp-cddu-manager'),
+                'name' => __('Name', 'wp-cddu-manager'),
+                'address' => __('Address', 'wp-cddu-manager'),
+                'legal_representative' => __('Legal Representative', 'wp-cddu-manager'),
+                'not_specified' => __('Not specified', 'wp-cddu-manager'),
+                'no_instructors_assigned' => __('No instructors assigned to this organization.', 'wp-cddu-manager'),
+                'no_address_specified' => __('No address specified', 'wp-cddu-manager'),
+                'assigned' => __('Assigned', 'wp-cddu-manager'),
+                'active_contracts' => __('active contracts', 'wp-cddu-manager'),
+                'assign' => __('Assign', 'wp-cddu-manager'),
+                'unassign' => __('Unassign', 'wp-cddu-manager'),
+                'cannot_unassign_instructor_with_active_contracts' => __('Cannot unassign instructor with active contracts', 'wp-cddu-manager'),
+                'assign_instructor' => __('Assign instructor', 'wp-cddu-manager'),
+                'to_this_organization' => __('to this organization', 'wp-cddu-manager'),
             ]
         ]);
     }

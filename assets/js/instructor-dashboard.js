@@ -1,4 +1,8 @@
 jQuery(document).ready(function($) {
+    // Utility functions for translations
+    function __(text) {
+        return text; // In a real implementation, this would handle translations
+    }
     
     // Submit timesheet form
     $('#timesheet-form').on('submit', function(e) {
@@ -16,14 +20,14 @@ jQuery(document).ready(function($) {
         
         // Validate required fields
         if (!formData.contract_id || !formData.month || !formData.year || !formData.hours_worked) {
-            alert('Please fill in all required fields');
+            alert(__('Please fill in all required fields', 'wp-cddu-manager'));
             return;
         }
         
         // Disable submit button
         const submitBtn = $(this).find('button[type="submit"]');
         const originalText = submitBtn.text();
-        submitBtn.text('Submitting...').prop('disabled', true);
+        submitBtn.text(__('Submitting...', 'wp-cddu-manager')).prop('disabled', true);
         
         $.post(cddu_instructor_ajax.ajax_url, formData, function(response) {
             if (response.success) {
@@ -33,7 +37,7 @@ jQuery(document).ready(function($) {
                 // Reload page to show new timesheet in the table
                 window.location.reload();
             } else {
-                alert('Error: ' + (response.data.message || 'Submission failed'));
+                alert(__('Error:', 'wp-cddu-manager') + ' ' + (response.data.message || __('Submission failed', 'wp-cddu-manager')));
             }
         }).always(function() {
             // Re-enable submit button
@@ -76,7 +80,7 @@ jQuery(document).ready(function($) {
         }
         
         const counter = $(this).siblings('.char-counter');
-        counter.text(currentLength + '/' + maxLength + ' characters');
+        counter.text(currentLength + '/' + maxLength + ' ' + __('characters', 'wp-cddu-manager'));
         
         if (currentLength > maxLength) {
             counter.css('color', 'red');

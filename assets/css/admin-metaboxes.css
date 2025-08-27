@@ -388,3 +388,23 @@
         gap: 8px;
     }
 }
+
+/* Validation Message Styles */
+.validation-message {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.validation-message.error {
+    background-color: #fcf2f2;
+    border: 1px solid #dc3232;
+    color: #dc3232;
+}
+
+.validation-message.warning {
+    background-color: #fff8e5;
+    border: 1px solid #ffb900;
+    color: #946900;
+}
