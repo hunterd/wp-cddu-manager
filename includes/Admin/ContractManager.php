@@ -24,6 +24,20 @@ class ContractManager {
     public function register_post_types(): void {
         register_post_type('cddu_contract', [
             'label' => __('Contracts', 'wp-cddu-manager'),
+            'labels' => [
+                'name' => __('Contracts', 'wp-cddu-manager'),
+                'singular_name' => __('Contract', 'wp-cddu-manager'),
+                'add_new' => __('Add New Contract', 'wp-cddu-manager'),
+                'add_new_item' => __('Add New Contract', 'wp-cddu-manager'),
+                'edit_item' => __('Edit Contract', 'wp-cddu-manager'),
+                'new_item' => __('New Contract', 'wp-cddu-manager'),
+                'view_item' => __('View Contract', 'wp-cddu-manager'),
+                'search_items' => __('Search Contracts', 'wp-cddu-manager'),
+                'not_found' => __('No contracts found', 'wp-cddu-manager'),
+                'not_found_in_trash' => __('No contracts found in trash', 'wp-cddu-manager'),
+                'all_items' => __('All Contracts', 'wp-cddu-manager'),
+                'menu_name' => __('Contracts', 'wp-cddu-manager'),
+            ],
             'public' => false,
             'show_ui' => true,
             'menu_icon' => 'dashicons-media-text',
@@ -49,6 +63,20 @@ class ContractManager {
 
         register_post_type('cddu_addendum', [
             'label' => __('Addendums', 'wp-cddu-manager'),
+            'labels' => [
+                'name' => __('Addendums', 'wp-cddu-manager'),
+                'singular_name' => __('Addendum', 'wp-cddu-manager'),
+                'add_new' => __('Add New Addendum', 'wp-cddu-manager'),
+                'add_new_item' => __('Add New Addendum', 'wp-cddu-manager'),
+                'edit_item' => __('Edit Addendum', 'wp-cddu-manager'),
+                'new_item' => __('New Addendum', 'wp-cddu-manager'),
+                'view_item' => __('View Addendum', 'wp-cddu-manager'),
+                'search_items' => __('Search Addendums', 'wp-cddu-manager'),
+                'not_found' => __('No addendums found', 'wp-cddu-manager'),
+                'not_found_in_trash' => __('No addendums found in trash', 'wp-cddu-manager'),
+                'all_items' => __('All Addendums', 'wp-cddu-manager'),
+                'menu_name' => __('Addendums', 'wp-cddu-manager'),
+            ],
             'public' => false,
             'show_ui' => true,
             'menu_icon' => 'dashicons-media-document',
@@ -74,6 +102,20 @@ class ContractManager {
 
         register_post_type('cddu_timesheet', [
             'label' => __('Timesheets', 'wp-cddu-manager'),
+            'labels' => [
+                'name' => __('Timesheets', 'wp-cddu-manager'),
+                'singular_name' => __('Timesheet', 'wp-cddu-manager'),
+                'add_new' => __('Add New Timesheet', 'wp-cddu-manager'),
+                'add_new_item' => __('Add New Timesheet', 'wp-cddu-manager'),
+                'edit_item' => __('Edit Timesheet', 'wp-cddu-manager'),
+                'new_item' => __('New Timesheet', 'wp-cddu-manager'),
+                'view_item' => __('View Timesheet', 'wp-cddu-manager'),
+                'search_items' => __('Search Timesheets', 'wp-cddu-manager'),
+                'not_found' => __('No timesheets found', 'wp-cddu-manager'),
+                'not_found_in_trash' => __('No timesheets found in trash', 'wp-cddu-manager'),
+                'all_items' => __('All Timesheets', 'wp-cddu-manager'),
+                'menu_name' => __('Timesheets', 'wp-cddu-manager'),
+            ],
             'public' => false,
             'show_ui' => true,
             'menu_icon' => 'dashicons-clock',

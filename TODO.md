@@ -38,12 +38,10 @@ Ce TODO.md suit le cahier des charges fourni et l'état actuel du dépôt.
   - `contract-created.php`
   - `signature-requested.php`
 - `templates/admin/` - **✅ ÉTENDU** - admin interface templates:
-  - `create-mission-form.php` - comprehensive mission creation form with learner assignment
-  - `manage-missions.php` - mission management interface
   - `create-learner-form.php` - **✅ NOUVEAU** - learner creation form
   - `manage-learners.php` - **✅ NOUVEAU** - learner management interface with filtering
 
-> **Statut**: Système complet implémenté avec toutes les fonctionnalités principales opérationnelles, incluant le nouveau Mission Manager.
+> **Statut**: Système complet implémenté avec toutes les fonctionnalités principales opérationnelles. La gestion des missions se fait exclusivement via l'interface native WordPress. La page de création de mission personnalisée a été supprimée.
 
 ## TODO (par étapes)
 1. Project setup & initial audit

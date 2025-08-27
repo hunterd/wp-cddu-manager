@@ -3,7 +3,7 @@ namespace CDDU_Manager\Admin;
 
 class OrganizationManager {
     public function __construct() {
-        // No admin menu for organizations - using standard WordPress post type listing
+        add_action('add_meta_boxes', [$this, 'add_metaboxes']);
     }
 
     /**
@@ -12,6 +12,20 @@ class OrganizationManager {
     public function register_post_type(): void {
         register_post_type('cddu_organization', [
             'label' => __('Organizations', 'wp-cddu-manager'),
+            'labels' => [
+                'name' => __('Organizations', 'wp-cddu-manager'),
+                'singular_name' => __('Organization', 'wp-cddu-manager'),
+                'add_new' => __('Add New Organization', 'wp-cddu-manager'),
+                'add_new_item' => __('Add New Organization', 'wp-cddu-manager'),
+                'edit_item' => __('Edit Organization', 'wp-cddu-manager'),
+                'new_item' => __('New Organization', 'wp-cddu-manager'),
+                'view_item' => __('View Organization', 'wp-cddu-manager'),
+                'search_items' => __('Search Organizations', 'wp-cddu-manager'),
+                'not_found' => __('No organizations found', 'wp-cddu-manager'),
+                'not_found_in_trash' => __('No organizations found in trash', 'wp-cddu-manager'),
+                'all_items' => __('All Organizations', 'wp-cddu-manager'),
+                'menu_name' => __('Organizations', 'wp-cddu-manager'),
+            ],
             'public' => false,
             'show_ui' => true,
             'menu_icon' => 'dashicons-building',

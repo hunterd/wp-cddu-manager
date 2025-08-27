@@ -4,7 +4,6 @@
 
 /* Mission Form Styles */
 .cddu-mission-form-container {
-    max-width: 1000px;
     margin-top: 20px;
 }
 
@@ -571,104 +570,4 @@
 .button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .cddu-mission-form-container {
-        max-width: 100%;
-    }
-    
-    .cddu-missions-stats {
-        flex-wrap: wrap;
-    }
-    
-    .stat-item {
-        flex: 1;
-        min-width: 100px;
-    }
-}
-
-@media (max-width: 782px) {
-    .cddu-form-row {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .skill-input-container {
-        flex-direction: column;
-    }
-    
-    .cddu-form-actions {
-        text-align: center;
-    }
-    
-    .cddu-form-actions .button {
-        margin: 5px;
-        width: 100%;
-        max-width: 200px;
-    }
-    
-    .cddu-filters {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .filter-group {
-        min-width: auto;
-    }
-    
-    .cddu-missions-stats {
-        flex-direction: column;
-    }
-    
-    .cddu-modal-content {
-        width: 95%;
-        margin: 20px;
-    }
-    
-    .cddu-modal-header {
-        padding: 15px;
-    }
-    
-    .cddu-modal-body {
-        padding: 15px;
-    }
-    
-    #missions-table {
-        font-size: 14px;
-    }
-    
-    #missions-table th,
-    #missions-table td {
-        padding: 8px 4px;
-    }
-    
-    .mission-info-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .cddu-modal-content {
-        width: 100%;
-        height: 100%;
-        max-height: 100vh;
-        border-radius: 0;
-    }
-    
-    .cddu-form-section {
-        margin: 10px 0;
-        padding: 15px;
-    }
-    
-    .calculation-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .calculation-item .value {
-        margin-top: 2px;
-        font-size: 16px;
-    }
 }

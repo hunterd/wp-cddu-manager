@@ -15,12 +15,6 @@
         },
 
         bindEvents: function() {
-            // Form submission
-            $('#cddu-create-mission-form').on('submit', this.handleCreateMission.bind(this));
-            
-            // Validation
-            $('#validate-mission-btn').on('click', this.validateMission.bind(this));
-            
             // Mission actions
             $(document).on('click', '.view-mission', this.viewMission.bind(this));
             $(document).on('click', '.duplicate-mission', this.duplicateMission.bind(this));
@@ -86,22 +80,7 @@
                 skillsList.append(skillTag);
             });
             
-            // Update hidden input for form submission
-            this.updateSkillsInput(skills);
-        },
-
-        updateSkillsInput: function(skills) {
-            // Remove existing hidden inputs
-            $('input[name="required_skills[]"]').remove();
-            
-            // Add new hidden inputs
-            skills.forEach(function(skill) {
-                $('<input>')
-                    .attr('type', 'hidden')
-                    .attr('name', 'required_skills[]')
-                    .val(skill)
-                    .appendTo('#cddu-create-mission-form');
-            });
+            // Skills functionality removed - handled by WordPress native interface
         },
 
         initCalculations: function() {
@@ -292,145 +271,6 @@
             $('#in-progress-missions').text(inProgressMissions);
         },
 
-        handleCreateMission: function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            formData.append('action', 'cddu_create_mission');
-            formData.append('nonce', cddu_mission_ajax.nonce);
-            
-            // Add skills array
-            this.skillsArray.forEach(function(skill) {
-                formData.append('required_skills[]', skill);
-            });
-
-            // Handle training modalities checkboxes
-            const selectedModalities = [];
-            $('input[name="training_modalities[]"]:checked').each(function() {
-                selectedModalities.push($(this).val());
-            });
-            formData.delete('training_modalities[]');
-            selectedModalities.forEach(function(modality) {
-                formData.append('training_modalities[]', modality);
-            });
-
-            // Handle selected learners
-            const selectedLearners = [];
-            $('#learner_ids option:selected').each(function() {
-                selectedLearners.push($(this).val());
-            });
-            formData.delete('learner_ids[]');
-            selectedLearners.forEach(function(learnerId) {
-                formData.append('learner_ids[]', learnerId);
-            });
-            
-            this.showLoading();
-            
-            $.ajax({
-                url: cddu_mission_ajax.ajax_url,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    this.hideLoading();
-                    
-                    if (response.success) {
-                        this.showMessage(response.data.message, 'success');
-                        this.resetForm();
-                        
-                        // Optionally redirect to edit page
-                        if (confirm('Mission created successfully! Do you want to edit it now?')) {
-                            window.location.href = response.data.edit_url;
-                        }
-                    } else {
-                        this.showMessage(response.data.message, 'error');
-                    }
-                }.bind(this),
-                error: function() {
-                    this.hideLoading();
-                    this.showMessage('An error occurred while creating the mission.', 'error');
-                }.bind(this)
-            });
-        },
-
-        validateMission: function() {
-            // Client-side validation for new required fields
-            let hasErrors = false;
-            const messages = [];
-
-            // Check training action
-            if (!$('#training_action').val().trim()) {
-                hasErrors = true;
-                messages.push('Training action is required');
-                $('#training_action').addClass('error');
-            } else {
-                $('#training_action').removeClass('error');
-            }
-
-            // Check learner selection
-            if ($('#learner_ids option:selected').length === 0) {
-                hasErrors = true;
-                messages.push('At least one learner must be selected');
-                $('#learner_ids').addClass('error');
-            } else {
-                $('#learner_ids').removeClass('error');
-            }
-
-            // Check training modalities
-            if ($('input[name="training_modalities[]"]:checked').length === 0) {
-                hasErrors = true;
-                messages.push('At least one training modality must be selected');
-                $('.modality-checkboxes').addClass('error');
-            } else {
-                $('.modality-checkboxes').removeClass('error');
-            }
-
-            if (hasErrors) {
-                this.showMessage(messages.join(', '), 'error');
-                return;
-            }
-
-            const formData = new FormData($('#cddu-create-mission-form')[0]);
-            formData.append('action', 'cddu_validate_mission_data');
-            formData.append('nonce', cddu_mission_ajax.nonce);
-            
-            // Add new fields to validation
-            formData.append('training_action', $('#training_action').val());
-            const selectedLearners = [];
-            $('#learner_ids option:selected').each(function() {
-                selectedLearners.push($(this).val());
-            });
-            selectedLearners.forEach(function(learnerId) {
-                formData.append('learner_ids[]', learnerId);
-            });
-            const selectedModalities = [];
-            $('input[name="training_modalities[]"]:checked').each(function() {
-                selectedModalities.push($(this).val());
-            });
-            selectedModalities.forEach(function(modality) {
-                formData.append('training_modalities[]', modality);
-            });
-            
-            $.ajax({
-                url: cddu_mission_ajax.ajax_url,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        this.showMessage('Mission data is valid!', 'success');
-                    } else {
-                        this.showMessage(response.data.errors.join(', '), 'error');
-                    }
-                }.bind(this),
-                error: function() {
-                    this.showMessage('Validation failed.', 'error');
-                }.bind(this)
-            });
-        },
-
         viewMission: function(e) {
             e.preventDefault();
             
@@ -542,20 +382,6 @@
 
         closeModal: function() {
             $('#cddu-mission-modal').hide();
-        },
-
-        resetForm: function() {
-            $('#cddu-create-mission-form')[0].reset();
-            $('#skills-list').empty();
-            this.skillsArray.length = 0;
-            
-            // Reset training modalities checkboxes
-            $('input[name="training_modalities[]"]').prop('checked', false);
-            
-            // Reset learner selection
-            $('#learner_ids option').prop('selected', false);
-            
-            this.updateCalculations();
         },
 
         showLoading: function() {

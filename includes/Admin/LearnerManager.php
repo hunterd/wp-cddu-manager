@@ -10,6 +10,7 @@ class LearnerManager {
         add_action('wp_ajax_cddu_delete_learner', [$this, 'ajax_delete_learner']);
         add_action('wp_ajax_cddu_get_learner_data', [$this, 'ajax_get_learner_data']);
         add_action('wp_ajax_cddu_validate_learner_data', [$this, 'ajax_validate_learner_data']);
+        add_action('add_meta_boxes', [$this, 'add_metaboxes']);
     }
 
     /**

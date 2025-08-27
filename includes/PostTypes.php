@@ -83,7 +83,6 @@ class PostTypes {
         ]);
 
         // Setup metaboxes and hooks
-        add_action('add_meta_boxes', [$this, 'add_metaboxes']);
         add_action('save_post_cddu_organization', [$this->organizationManager, 'save_organization_meta'], 10, 2);
         add_action('save_post_cddu_mission', [$this->missionManager, 'save_mission_meta'], 10, 2);
         add_action('save_post_cddu_learner', [$this->learnerManager, 'save_learner_meta'], 10, 2);
@@ -92,11 +91,5 @@ class PostTypes {
         add_action('admin_footer-post.php', [$this->learnerManager, 'remove_pending_status_from_learners']);
         add_action('admin_footer-post-new.php', [$this->learnerManager, 'remove_pending_status_from_learners']);
         add_filter('wp_insert_post_data', [$this->learnerManager, 'prevent_pending_status_for_learners'], 10, 2);
-    }
-
-    public function add_metaboxes(): void {
-        $this->organizationManager->add_metaboxes();
-        $this->missionManager->add_metaboxes();
-        $this->learnerManager->add_metaboxes();
     }
 }

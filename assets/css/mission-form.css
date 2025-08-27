@@ -1,5 +1,4 @@
 .cddu-mission-form-container {
-    max-width: 1000px;
     margin-top: 20px;
 }
 
@@ -199,4 +198,121 @@
         width: 100%;
         max-width: 200px;
     }
+}
+
+/* WordPress admin layout for 2-column metabox layout using Flexbox */
+
+/* Mission form containers */
+#cddu-mission-form-container,
+.cddu-mission-form-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 960px) {
+    #post-body-content{
+        flex-direction: column;
+    }
+}
+
+/* Metabox specific styles */
+.cddu-metabox-content {
+    margin: 0;
+    padding: 20px;
+}
+
+.cddu-metabox-content .form-table {
+    margin: 0;
+}
+
+.cddu-metabox-content .form-table th {
+    padding: 15px 10px 15px 0;
+    vertical-align: top;
+    font-weight: 600;
+    width: 200px;
+}
+
+.cddu-metabox-content .form-table td {
+    padding: 15px 10px;
+}
+
+.cddu-metabox-content .form-table input,
+.cddu-metabox-content .form-table select,
+.cddu-metabox-content .form-table textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+.cddu-metabox-content .required {
+    color: #d63638;
+}
+
+.cddu-metabox-content small {
+    color: #646970;
+    font-style: italic;
+}
+
+/* Mission calculations box */
+.cddu-mission-calculations {
+    background: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.cddu-mission-calculations h4 {
+    margin: 0 0 10px 0;
+    color: #1d2327;
+}
+
+.cddu-mission-calculations p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.cddu-mission-calculations span {
+    font-weight: 600;
+    color: #135e96;
+}
+
+/* Training modalities checkboxes */
+.cddu-metabox-content input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+.cddu-metabox-content label[style*="block"] {
+    display: flex !important;
+    align-items: center;
+    margin: 8px 0 !important;
+    font-weight: normal;
+}
+
+/* Multi-select styling */
+.cddu-metabox-content select[multiple] {
+    height: auto;
+    min-height: 120px;
+}
+
+/* Metabox container spacing */
+.postbox {
+    margin-bottom: 20px;
+}
+
+.postbox .inside {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure proper spacing between metaboxes */
+#normal-sortables .postbox {
+    margin-bottom: 20px;
+}
+
+#normal-sortables .postbox:last-child {
+    margin-bottom: 0;
 }
