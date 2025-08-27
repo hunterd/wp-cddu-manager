@@ -6,7 +6,6 @@ use CDDU_Manager\Admin\ContractManager;
 use CDDU_Manager\Admin\MissionManager;
 use CDDU_Manager\Admin\InstructorManager;
 use CDDU_Manager\Admin\LearnerManager;
-use CDDU_Manager\Admin\LearnerFormManager;
 use CDDU_Manager\Admin\ContractTemplateManager;
 use CDDU_Manager\Admin\AddendumTemplateManager;
 use CDDU_Manager\Frontend\InstructorDashboard;
@@ -40,7 +39,6 @@ class Plugin {
         new AddendumTemplateManager();
         new InstructorManager();
         
-        LearnerFormManager::get_instance();
         new InstructorDashboard();
         new TimesheetProcessor();
         new SignatureManager();

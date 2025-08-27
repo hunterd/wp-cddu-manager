@@ -82,13 +82,6 @@ class MissionManager {
                 [],
                 CDDU_MNGR_VERSION
             );
-            
-            wp_enqueue_style(
-                'cddu-mission-form',
-                CDDU_MNGR_URL . 'assets/css/mission-form.css',
-                [],
-                CDDU_MNGR_VERSION
-            );
 
             wp_enqueue_script(
                 'cddu-mission-manager',
