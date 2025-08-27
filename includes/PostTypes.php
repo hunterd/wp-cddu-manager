@@ -5,12 +5,18 @@ use CDDU_Manager\Admin\ContractManager;
 use CDDU_Manager\Admin\MissionManager;
 use CDDU_Manager\Admin\LearnerManager;
 use CDDU_Manager\Admin\OrganizationManager;
+use CDDU_Manager\Admin\NotificationManager;
+use CDDU_Manager\Admin\SignatureManager;
+use CDDU_Manager\Admin\InstructorManager;
 
 class PostTypes {
     private $contractManager;
     private $missionManager;
     private $learnerManager;
     private $organizationManager;
+    private $notificationManager;
+    private $signatureManager;
+    private $instructorManager;
 
     public function __construct() {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_styles']);
@@ -20,6 +26,9 @@ class PostTypes {
         $this->missionManager = new MissionManager();
         $this->learnerManager = new LearnerManager();
         $this->organizationManager = new OrganizationManager();
+        $this->notificationManager = new NotificationManager();
+        $this->signatureManager = new SignatureManager();
+        $this->instructorManager = new InstructorManager();
     }
 
     public function enqueue_admin_styles($hook): void {
@@ -29,7 +38,7 @@ class PostTypes {
         }
 
         global $post_type;
-        if (!in_array($post_type, ['cddu_organization', 'cddu_contract', 'cddu_mission', 'cddu_learner'])) {
+        if (!in_array($post_type, ['cddu_organization', 'cddu_contract', 'cddu_mission', 'cddu_learner', 'cddu_notification', 'cddu_signature'])) {
             return;
         }
 
@@ -62,30 +71,15 @@ class PostTypes {
         $this->missionManager->register_post_type();
         $this->learnerManager->register_post_type();
         $this->organizationManager->register_post_type();
-
-        // Register remaining post types that don't have dedicated managers yet
-        register_post_type('cddu_notification', [
-            'label' => __('Notifications', 'wp-cddu-manager'),
-            'public' => false,
-            'show_ui' => true,
-            'menu_icon' => 'dashicons-warning',
-            'supports' => ['title', 'editor', 'custom-fields'],
-            'capability_type' => 'post',
-        ]);
-
-        register_post_type('cddu_signature', [
-            'label' => __('Signature Requests', 'wp-cddu-manager'),
-            'public' => false,
-            'show_ui' => true,
-            'menu_icon' => 'dashicons-edit-page',
-            'supports' => ['title', 'custom-fields'],
-            'capability_type' => 'post',
-        ]);
+        $this->notificationManager->register_post_type();
+        $this->signatureManager->register_post_type();
 
         // Setup metaboxes and hooks
         add_action('save_post_cddu_organization', [$this->organizationManager, 'save_organization_meta'], 10, 2);
         add_action('save_post_cddu_mission', [$this->missionManager, 'save_mission_meta'], 10, 2);
         add_action('save_post_cddu_learner', [$this->learnerManager, 'save_learner_meta'], 10, 2);
+        add_action('save_post_cddu_notification', [$this->notificationManager, 'save_notification_meta'], 10, 2);
+        add_action('save_post_cddu_signature', [$this->signatureManager, 'save_signature_meta'], 10, 2);
         
         // Remove pending status from learner post type
         add_action('admin_footer-post.php', [$this->learnerManager, 'remove_pending_status_from_learners']);
